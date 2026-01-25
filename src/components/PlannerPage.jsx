@@ -114,7 +114,7 @@ function TaskFilters({ filters, setFilters, tasks }) {
                 </label>
             </div>
             <label>
-                <span>Category</span>
+                <span>Subject</span>
                 <select value={filters.subject} onChange={(e) => setFilters({ ...filters, subject: e.target.value })}>
                     {subjects.map((subject) => (
                         <option key={subject} value={subject}>

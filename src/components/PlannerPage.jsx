@@ -127,3 +127,78 @@ function TaskFilters({ filters, setFilters, tasks }) {
     );
 }
 
+function TaskItem({ task, updateTask, deleteTask }) {
+    const [editing, setEditing] = useState(false);
+    const [draft, setDraft] = useState({ ...task });
+
+    const save = () => {
+        updateTask(task.id, draft);
+        setEditing(false);
+    };
+    return (
+        <div>
+            <div>
+                <div>
+                    {editing ? (
+                        <input
+                            className="task-title-input"
+                            value={draft.title}
+                            onChange={(e) => setDraft({ ...draft, title: e.target.value })}
+                        />
+                    ) : (
+                        <div className="task-title">{task.title}</div>
+                    )}
+                </div>
+                <div className="task-actions">
+                    {editing ? (
+                        <>
+                            <input value={draft.subject || ""} onChange={(e) => setDraft({ ...draft, subject: e.target.value })} placeholder="Subject" />
+                            <input type="date" value={draft.dueDate || ""} onChange={(e) => setDraft({ ...draft, dueDate: e.target.value })} />
+                        </>
+                    ) : (
+                        <>
+                            {task.subject ? <span>{task.subject}</span> : null}
+                            {task.dueDate ? <span>Due: {task.dueDate}</span> : null}
+                        </>
+                    )}
+                </div>
+            </div>
+            <span>{task.priority}</span>
+
+            <div>
+                {editing ? (
+                    <>
+                    <label>
+                        <span>Priority</span>
+                        <select value={draft.priority} onChange={(e) => setDraft({ ...draft, priority: e.target.value })}>
+                            <option value="">Select Priority</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        <span>Status</span>
+                        <select value={draft.status} onChange={(e) => setDraft({ ...draft, status: e.target.value })}>
+                            <option value="To-Do">To-Do</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </label>
+
+                    <button onClick={save} type="button">Save</button>
+                    <button onClick={() => setEditing(false)} type="button">Cancel</button>
+                    </>
+                ) : (
+                    <>
+                    <button onClick={() => updateTask(task.id)} type="button" disabled={task.status === "Done"}>Mark Done</button>
+                    <button onClick={() => setEditing(true)} type="button">Edit</button>
+                    <button onClick={() => deleteTask(task.id)} type="button">Delete</button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+}
+

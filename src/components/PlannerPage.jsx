@@ -83,3 +83,47 @@ function TaskForm({ addTask }) {
     );
 }
 
+function TaskFilters({ filters, setFilters, tasks }) {
+    const subjects = useMemo(() => {
+        const set = new Set(tasks.map(task => task.subject).filter(subject => subject));
+        return ["All", ...Array.from(set).sort()];
+    }, [tasks]);
+
+    return (
+        <div>
+            <div>Filters</div>
+            <div>
+                <label>
+                    <span>Status</span>
+                    <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}>
+                        <option value="All">All</option>
+                        <option value="To-Do">To-Do</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span>Priority</span>
+                    <select value={filters.priority} onChange={(e) => setFilters({ ...filters, priority: e.target.value })}>
+                        <option value="All">All</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </label>
+            </div>
+            <label>
+                <span>Category</span>
+                <select value={filters.subject} onChange={(e) => setFilters({ ...filters, subject: e.target.value })}>
+                    {subjects.map((subject) => (
+                        <option key={subject} value={subject}>
+                            {subject}
+                        </option>
+                    ))}
+                </select>
+            </label>
+        </div>
+    );
+}
+

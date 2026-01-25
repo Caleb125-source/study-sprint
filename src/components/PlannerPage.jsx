@@ -202,3 +202,15 @@ function TaskItem({ task, updateTask, deleteTask }) {
     );
 }
 
+function TaskList({ tasks, updateTask, deleteTask }) {
+    if (tasks.length === 0) {
+        return <div><p>No tasks found.</p></div>;
+    }
+    return (
+        <div>
+            {tasks.map((task) => (
+                <TaskItem key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} />
+            ))}
+        </div>
+    );
+}

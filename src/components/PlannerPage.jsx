@@ -168,33 +168,33 @@ function TaskItem({ task, updateTask, deleteTask }) {
             <div>
                 {editing ? (
                     <>
-                    <label>
-                        <span>Priority</span>
-                        <select value={draft.priority} onChange={(e) => setDraft({ ...draft, priority: e.target.value })}>
-                            <option value="">Select Priority</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                        </select>
-                    </label>
+                        <label>
+                            <span>Priority</span>
+                            <select value={draft.priority} onChange={(e) => setDraft({ ...draft, priority: e.target.value })}>
+                                <option value="">Select Priority</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </label>
 
-                    <label>
-                        <span>Status</span>
-                        <select value={draft.status} onChange={(e) => setDraft({ ...draft, status: e.target.value })}>
-                            <option value="To-Do">To-Do</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Completed">Completed</option>
-                        </select>
-                    </label>
+                        <label>
+                            <span>Status</span>
+                            <select value={draft.status} onChange={(e) => setDraft({ ...draft, status: e.target.value })}>
+                                <option value="To-Do">To-Do</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </label>
 
-                    <button onClick={save} type="button">Save</button>
-                    <button onClick={() => setEditing(false)} type="button">Cancel</button>
+                        <button onClick={save} type="button">Save</button>
+                        <button onClick={() => setEditing(false)} type="button">Cancel</button>
                     </>
                 ) : (
                     <>
-                    <button onClick={() => updateTask(task.id)} type="button" disabled={task.status === "Done"}>Mark Done</button>
-                    <button onClick={() => setEditing(true)} type="button">Edit</button>
-                    <button onClick={() => deleteTask(task.id)} type="button">Delete</button>
+                        <button onClick={() => updateTask(task.id)} type="button" disabled={task.status === "Done"}>Mark Done</button>
+                        <button onClick={() => setEditing(true)} type="button">Edit</button>
+                        <button onClick={() => deleteTask(task.id)} type="button">Delete</button>
                     </>
                 )}
             </div>
@@ -214,3 +214,39 @@ function TaskList({ tasks, updateTask, deleteTask }) {
         </div>
     );
 }
+// Main Planner Page Component
+export function PlannerPage({ tasks, addTask, updateTask, deleteTask }) {
+    const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
+    const filteredTasks = useMemo(() => {
+        return tasks.filter(task => {
+            return (filters.status === "All" || task.status === filters.status) &&
+                (filters.priority === "All" || task.priority === filters.priority) &&
+                (filters.subject === "All" || task.subject === filters.subject);
+
+        });
+    }, [tasks, filters]);
+
+    return (
+        <div className="planner-page">
+            <div>
+                <h1>Task Planner</h1>
+                <p>Manage your tasks efficiently</p>
+            </div>
+
+            <div>
+                <div>
+                    <TaskForm addTask={addTask} />
+                    <TaskFilters filters={filters} setFilters={setFilters} tasks={tasks} />  
+                </div>
+
+                <section>
+                    <div>
+                        <div>Task List</div>
+                        <p>{filteredTasks.length} task(s)</p>
+                    </div>
+                    <TaskList tasks={filteredTasks} updateTask={updateTask} deleteTask={deleteTask} />
+                </section>
+            </div>
+        </div>
+    );
+} 

@@ -1,0 +1,85 @@
+import React, { useMemo, useState } from "react";
+
+function TaskForm({ addTask }) {
+    const [title, setTitle] = useState("");
+    const [subject, setSubject] = useState("");
+    const [dueDate, setDueDate] = useState("");
+    const [priority, setPriority] = useState("");
+    const [status, setStatus] = useState("To-Do");
+
+    const handleSubmit = (e) => {
+        console.log("Submitting form");
+        e.preventDefault();
+        if (title.trim() === "") return; // Prevent adding tasks with empty titles
+
+        // Add task to the planner
+        addTask({ title: title.trim(), subject, dueDate, priority, status });
+
+        // Reset form fields after submission
+        setTitle("");
+        setSubject("");
+        setDueDate("");
+        setPriority("");
+        setStatus("To-Do");
+    };
+    return (
+        <form onSubmit={handleSubmit} className="task-form">
+            <div>Add Task</div>
+
+            <label>
+                <span>Title</span>
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="e.g., Finish homework"
+                    required
+                />
+            </label>
+
+            <label>
+                <span>Subject</span>
+                <input
+                    type="text"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    placeholder="e.g., Science"
+                />
+            </label>
+
+            <label>
+                <span>Due Date</span>
+                <input
+                    type="date"
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.target.value)}
+                    placeholder="e.g., 2026-01-25"
+                />
+            </label>
+
+            <div>
+                <label>
+                    <span>Priority</span>
+                    <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+                        <option value="">Select Priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span>Status</span>
+                    <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                        <option value="To-Do">To-Do</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </label>
+            </div>
+
+            <button type="submit">Add</button>
+        </form>
+    );
+}
+

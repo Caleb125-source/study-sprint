@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { TimerPage } from './components/TimerPage'
+import TimerPage from './components/TimerPage'
 import { Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<TimerPage />} />
-      <Route path="/timer" element={<TimerPage />} />
+      <Route path="/timer" element={<TimerPage tasks={tasks} addSession={addSession} />} />
     </Routes>
   )
 }

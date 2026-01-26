@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./components/Layout.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
+import ProgressPage from "./pages/ProgressPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
+
+import { useEffect, useState } from "react";
+
+/*
+  App stores shared state that pages can use.
+  Here we keep sessions in App so ProgressPage stays simple.
+  We also save sessions in localStorage so they still exist after refresh.
+*/
+export default function App() {
+  const [tasks, setTasks] = useState([]);
+  const [sessions, setSessions] = useState(() => {
+    const saved = localStorage.getItem("ss_sessions");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Add a new session to the front (newest first)
+  const addSession = (session) => setSessions((prev) => [session, ...prev]);
+
+  // Save sessions whenever they change
+  useEffect(() => {
+    localStorage.setItem("ss_sessions", JSON.stringify(sessions));
+  }, [sessions]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Navigate to="/progress" replace />} />
 
-export default App
+        <Route
+          path="progress"
+          element={
+            <ProgressPage
+              sessions={sessions}
+              tasks={tasks}
+              addSession={addSession}
+            />
+          }
+        />
+
+        <Route path="settings" element={<SettingsPage />} />
+
+        <Route path="*" element={<Navigate to="/progress" replace />} />
+      </Route>
+    </Routes>
+  );
+}

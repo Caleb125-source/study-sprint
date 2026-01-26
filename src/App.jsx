@@ -8,6 +8,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<TimerPage />} />
       <Route path="/timer" element={<TimerPage />} />
     </Routes>
   )

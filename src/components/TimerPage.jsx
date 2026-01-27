@@ -10,7 +10,7 @@ function formatTime(seconds) {
 function TimerPage({ tasks, addSession }) {
     const settings = useSettings();
 
-    const modes = useMemo(() => ([
+    const modeMinutes = useMemo(() => ([
     { key: 'Focus', duration: settings.focusMinutes },
     { key: 'Short Break', duration: settings.shortBreakMinutes },
     { key: 'Long Break', duration: settings.longBreakMinutes },
@@ -20,7 +20,7 @@ function TimerPage({ tasks, addSession }) {
   const [running, setRunning] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState("");
 
-  const currentMode = modes.find(mode => mode.key === modeKey);
+  const currentMode = modeMinutes.find(mode => mode.key === modeKey);
     const [secondsLeft, setSecondsLeft] = useState(currentMode.duration * 60);
     const [message, setMessage] = useState("");
 
@@ -119,13 +119,13 @@ function TimerPage({ tasks, addSession }) {
                 <div>
                     <div>Mode</div>
                     <div>
-                        {modes.map(mode => (
+                        {modeMinutes.map(modeMinute => (
                             <button
-                                key={mode.key}
-                                onClick={() => setModeKey(mode.key)}
-                                disabled={mode.key === modeKey}
+                                key={modeMinute.key}
+                                onClick={() => setModeKey(modeMinute.key)}
+                                disabled={modeMinute.key === modeKey}
                             >
-                                {mode.key}
+                                {modeMinute.key}
                             </button>
                         ))}
                     </div>

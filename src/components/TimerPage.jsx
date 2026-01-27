@@ -1,5 +1,7 @@
 import React, { useMemo, useEffect, useRef, useState } from 'react';
 import { useSettings } from './SettingsContext';
+import styles from "../styles/TimerPage.module.css";
+
 
 function formatTime(seconds) {
   const mins = Math.floor(seconds / 60);
@@ -91,37 +93,39 @@ function TimerPage({ tasks, addSession }) {
   };
 
   return (
-    <div>
-        <div>
-            <h1>Timer</h1>
-            <p>Your core productivity tool (Pomodoro-style)</p>
-        </div>
+    <div className={styles.page}>
+        <header className={styles.pageHead}>
+            <h1 className={styles.title}>Timer</h1>
+            <p className={styles.subTitle}>Your core productivity tool (Pomodoro-style)</p>
+        </header>
 
-        <div>
-            <section>
-                <div>{modeKey}</div>
-                <div>{formatTime(Math.max(secondsLeft, 0))}</div>
+        <div className={styles.grid}>
+            <section className={styles.card}>
+                <div className={styles.pill}>{modeKey}</div>
+                <div className={styles.time}>{formatTime(Math.max(secondsLeft, 0))}</div>
 
-                <div>
+                <div className={styles.actions}>
                     {!running ? (
-                        <button onClick={start}>Start</button>
+                        <button className={`${styles.btn} ${styles.primary}`} onClick={start} type="button">Start</button>
                     ) : (
-                        <button onClick={pause}>Pause</button>
+                        <button className={styles.btn} onClick={pause} type="button">Pause</button>
                     )}
-                    <button onClick={reset} type="button">Reset</button>
-                    <button onClick={skip} type="button">Skip</button>
+                    <button className={styles.btn} onClick={reset} type="button">Reset</button>
+                    <button className={`${styles.btn} ${styles.ghost}`} onClick={skip} type="button">Skip</button>
                 </div>
 
-                {message ? <div>{message}</div> : null}
+                {message ? <div className={styles.success}>{message}</div> : null}
             </section>
 
-            <section>
-                <div>
-                    <div>Mode</div>
-                    <div>
+            <section className={styles.stack}>
+                <div className={styles.card}>
+                    <div className={styles.cardTitle}>Mode</div>
+                    <div className={styles.modeRow}>
                         {modeMinutes.map(modeMinute => (
                             <button
                                 key={modeMinute.key}
+                                className={`${styles.btn} ${modeKey === modeMinute.key ? styles.primary : ""}`}
+                                type="button"
                                 onClick={() => setModeKey(modeMinute.key)}
                                 disabled={modeMinute.key === modeKey}
                             >
@@ -129,12 +133,13 @@ function TimerPage({ tasks, addSession }) {
                             </button>
                         ))}
                     </div>
-                    <p>Focus:{settings.focusMinutes}m • Short Break:{settings.shortBreakMinutes}m • Long Break:{settings.longBreakMinutes}m</p>
+                    <div className={styles.muted}>Focus:{settings.focusMinutes}m • Short Break:{settings.shortBreakMinutes}m • Long Break:{settings.longBreakMinutes}m</div>
                 </div>
 
-                <div>
-                    <div>Focus on a task</div>
+                <div className={styles.card}>
+                    <h2 className={styles.cardTitle}>Focus on a task</h2>
                     <select
+                        className={styles.select}
                         value={selectedTaskId}
                         onChange={(e) => setSelectedTaskId(e.target.value)}
                     >
@@ -145,7 +150,7 @@ function TimerPage({ tasks, addSession }) {
                             </option>
                         ))}
                     </select>
-                    <p>Selecting a task will add it to your session</p>
+                    <p className={styles.muted}>Selecting a task will add it to your session</p>
                 </div>
 
             </section>

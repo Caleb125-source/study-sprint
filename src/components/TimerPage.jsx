@@ -1,4 +1,4 @@
-import React, { useMemo, useSettings, useEffect, useRef, useState } from 'react';
+import React, { useMemo, useEffect, useRef, useState } from 'react';
 import { useSettings } from './SettingsContext';
 
 function formatTime(seconds) {

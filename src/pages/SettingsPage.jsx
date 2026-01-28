@@ -5,7 +5,6 @@ import { useSettings } from "../context/SettingsContext";
   SettingsPage goals:
   1) Switch between light and dark theme
   2) Change focus / break durations
-  3) Values persist because SettingsContext saves to localStorage
 */
 export default function SettingsPage() {
   const {
@@ -24,7 +23,7 @@ export default function SettingsPage() {
 
   /*
     The context already saves durations automatically.
-    This "Save" button is mainly for UI feedback (like your screenshot).
+    Here we just show a temporary "Settings saved" message.
   */
   const handleSave = () => {
     setSavedMsg("Settings saved");

@@ -110,8 +110,8 @@ describe("ProgressPage", () => {
     expect(screen.getByText("Middle")).toBeInTheDocument();
     expect(screen.queryByText("Oldest")).not.toBeInTheDocument();
   });
-
-  it("submitting Quick Add calls addSession with a session object", () => {
+// NOTE: Quick Add was a temporary demo feature and is not part of ProgressPage anymore.
+  it.skip("submitting Quick Add calls addSession with a session object", () => {
     const addSession = vi.fn();
 
     const { container } = render(

@@ -4,13 +4,16 @@ import styles from "../styles/TimerPage.module.css";
 
 
 function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  const safeSeconds = Number.isFinite(seconds) ? seconds : 0;
+
+  const mins = Math.floor(safeSeconds / 60);
+  const secs = safeSeconds % 60;
+
+  return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
 function TimerPage({ tasks, addSession }) {
-    const settings = useSettings();
+    const { settings } = useSettings();
 
     const modeMinutes = useMemo(() => ([
     { key: 'Focus', duration: settings.focusMinutes },
@@ -31,7 +34,7 @@ function TimerPage({ tasks, addSession }) {
     useEffect(() => {
     setRunning(false);
     setMessage("");
-    setSecondsLeft(modeMinutes * 60);
+    setSecondsLeft(currentMode.duration * 60);
   }, [modeMinutes, modeKey]);
 
   useEffect(() => {
@@ -54,12 +57,12 @@ function TimerPage({ tasks, addSession }) {
       if (modeKey === "Focus") {
         addSession({
           startedAt: new Date().toISOString(),
-          minutes: modeMinutes,
+          minutes: currentMode.duration,
           taskId: selectedTaskId || null,
         });
       }
     }
-  }, [secondsLeft, running, modeKey, modeMinutes, selectedTaskId, addSession]);
+  }, [secondsLeft, running, modeKey, currentMode, selectedTaskId, addSession]);
 
 
   const start=() => {

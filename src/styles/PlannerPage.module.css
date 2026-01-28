@@ -195,7 +195,6 @@
   transform: translateY(-1px);
 }
 
-/* task list rows */
 .taskRow {
   display: grid;
   grid-template-columns: 1fr auto;

@@ -1,16 +1,101 @@
-# React + Vite
+# TimerPage Component
+A Pomodoro-style timer component for managing focus sessions and breaks.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Overview
+TimerPage is a React component that implements a customizable timer for productivity sessions. It supports three modes (Focus, Short Break, Long Break), task tracking, and session logging.
+Features
 
-Currently, two official plugins are available:
+# Three Timer Modes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Focus: Default 25 minutes for work sessions
+Short Break: Default 5 minutes for short breaks
+Long Break: Default 15 minutes for longer breaks
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Timer Controls
 
-## Expanding the ESLint configuration
+Start/Pause: Begin or pause the countdown
+Reset: Reset timer to current mode's duration
+Skip: Skip current session and switch to next mode
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+# Task Tracking
+
+Select a task to associate with focus sessions
+Sessions are logged with task information
+
+
+# Session Logging
+
+Automatically logs completed focus sessions
+Records session start time, duration, and associated task
+Skipped sessions are logged with 0 minutes
+
+
+# Dependencies
+
+React (hooks: useState, useEffect, useRef, useMemo)
+SettingsContext (custom context for timer durations)
+TimerPage.module.css (component styles)
+
+
+# State Management
+# Local State
+
+modeKey: Current timer mode ('Focus' | 'Short Break' | 'Long Break')
+running: Boolean indicating if timer is active
+selectedTaskId: ID of selected task (empty string if none)
+secondsLeft: Remaining time in seconds
+message: Status message to display
+
+# Effects
+
+Mode Change Effect: Resets timer when mode or settings change
+Timer Effect: Runs countdown interval when timer is active
+Completion Effect: Handles session completion logic
+
+# Behavior
+# Timer Flow
+
+Starting: Click Start → timer begins countdown
+Pausing: Click Pause → timer stops but retains current time
+Resetting: Click Reset → timer returns to mode's default duration
+Completing: Timer reaches 0 → shows completion message, logs session (Focus only)
+
+# Skip Behavior
+
+From Focus: Switches to Short Break, logs 0-minute session
+From Break: Switches to Focus, no session logged
+
+# Session Logging
+Sessions are only logged for Focus mode in two cases:
+
+Timer naturally completes (full duration)
+Timer is skipped (0 minutes)
+
+
+# Styling
+The component uses CSS modules with the following main classes:
+
+page: Main container
+card: Card container
+time: Large timer display
+btn: Button styles
+primary: Primary button variant
+ghost: Ghost button variant
+pill: Mode indicator badge
+muted: Muted text
+
+# Testing
+Comprehensive test suite covers:
+
+# Initial rendering
+Timer controls (start, pause, reset)
+Mode switching
+Task selection
+Session completion
+Skip functionality
+Time formatting
+
+# Run tests with:
+bashnpm test

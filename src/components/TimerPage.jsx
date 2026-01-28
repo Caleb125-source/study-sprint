@@ -136,7 +136,7 @@ function TimerPage({ tasks, addSession }) {
                             </button>
                         ))}
                     </div>
-                    <div className={styles.muted}>Focus:{settings.focusMinutes}m • Short Break:{settings.shortBreakMinutes}m • Long Break:{settings.longBreakMinutes}m</div>
+                    <div className={styles.muted}>Focus : {settings.focusMinutes}m • Short Break : {settings.shortBreakMinutes}m • Long Break : {settings.longBreakMinutes}m</div>
                 </div>
 
                 <div className={styles.card}>

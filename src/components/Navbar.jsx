@@ -1,14 +1,21 @@
-// src/components/Navbar.jsx
 import { NavLink } from "react-router-dom";
 
-function Navbar() {
+export default function Navbar() {
   return (
-    <nav>
-      <NavLink to="/" className="logo">StudySprint</NavLink>
-      <div>
-        <NavLink to="/" end>Home</NavLink>
+    <nav className="navbar">
+      {/* Clickable logo */}
+      <NavLink to="/" className="logo">
+        StudySprint
+      </NavLink>
+
+      <div className="nav-links">
+        <NavLink to="/">Home</NavLink>
         <NavLink to="/features">Features</NavLink>
         <NavLink to="/about">About</NavLink>
+
+        {/* Divider between main pages and dashboard/tools */}
+        <span className="divider" />
+
         <NavLink to="/dashboard">Dashboard</NavLink>
         <NavLink to="/planner">Planner</NavLink>
         <NavLink to="/timer">Timer</NavLink>
@@ -18,5 +25,3 @@ function Navbar() {
     </nav>
   );
 }
-
-export default Navbar;

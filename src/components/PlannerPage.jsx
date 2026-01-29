@@ -279,7 +279,7 @@ function TaskList({ tasks, updateTask, deleteTask }) {
     );
 }
 // Main Planner Page Component
-export function PlannerPage({ tasks, addTask, updateTask, deleteTask }) {
+function PlannerPage({ tasks, addTask, updateTask, deleteTask }) {
     const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
     const filteredTasks = useMemo(() => {
         return tasks.filter(task => {
@@ -314,3 +314,5 @@ export function PlannerPage({ tasks, addTask, updateTask, deleteTask }) {
         </div>
     );
 } 
+
+export default PlannerPage;

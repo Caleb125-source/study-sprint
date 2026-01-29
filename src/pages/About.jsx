@@ -6,15 +6,14 @@ export default function About() {
 
   return (
     <div className="page">
-      {/* HEADER */}
       <h1>About StudySprint</h1>
       <p className="subtitle">
         A student-first productivity app designed for consistency and small daily wins.
       </p>
 
-      {/* MAIN GRID */}
+      
       <div className="about-grid">
-        {/* LEFT CARD */}
+        
         <div className="card about-left">
           <h3>Why we built it</h3>
           <p>
@@ -24,7 +23,6 @@ export default function About() {
           </p>
         </div>
 
-        {/* RIGHT CARD */}
         <div className="card about-right">
           <h3>How it helps</h3>
 

@@ -71,7 +71,8 @@
 }
 
 .buttonPrimary:hover {
-  background-color: #f3f4f6;
+  background-color: #2563eb;
+  color: white;
 }
 /* inactive */
 .buttonSecondary {
@@ -81,7 +82,8 @@
 }
 
 .buttonSecondary:hover {
-  background-color: #f3f4f6;
+  background-color: #2563eb;
+  color: white;
 }
 /* ===== Feature Cards ===== */
 .featureCard {

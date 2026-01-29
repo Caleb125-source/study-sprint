@@ -1,0 +1,117 @@
+.pageWrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.pageTitle {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.pageSubtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.cardText {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.toggleRow {
+  display: flex;
+  gap: 12px;
+}
+
+.toggleBtn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  background: var(--toggle-bg);
+  color: var(--toggle-text);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.toggleActive {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Inputs */
+.formGroup {
+  margin-bottom: 14px;
+}
+
+.label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--input-text);
+  font-size: 14px;
+}
+
+/* Button */
+.primaryBtn {
+  width: 100%;
+  margin-top: 20px;
+
+  height: 52px;              
+  border-radius: 10px;      
+
+  background: var(--primary);
+  color: #fff;
+  border: none;
+
+  font-size: 16px;       
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;              
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08); 
+
+  cursor: pointer;
+}
+
+
+.primaryBtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}

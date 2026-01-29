@@ -279,40 +279,59 @@ function TaskList({ tasks, updateTask, deleteTask }) {
     );
 }
 // Main Planner Page Component
-function PlannerPage({ tasks, addTask, updateTask, deleteTask }) {
-    const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
-    const filteredTasks = useMemo(() => {
-        return tasks.filter(task => {
-            return (filters.status === "All" || task.status === filters.status) &&
-                (filters.priority === "All" || task.priority === filters.priority) &&
-                (filters.subject === "All" || task.subject === filters.subject);
+function PlannerPage() {
+  const [tasks, setTasks] = useState([]);
+  const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
 
-        });
-    }, [tasks, filters]);
+  const addTask = (task) => {
+    const newTask = {
+      id: crypto?.randomUUID?.() ?? Date.now(),
+      ...task,
+    };
+    setTasks((prev) => [newTask, ...prev]);
+  };
 
-    return (
-        <div className={styles.page}>
-            <div className={styles.pageHead}>
-                <h1 className={styles.pageTitle}>Planner</h1>
-                <p className={styles.pageSubtitle}>Manage your tasks efficiently</p>
-            </div>
+  const updateTask = (id, updates) => {
+    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, ...updates } : t)));
+  };
 
-            <div className={styles.plannerGrid}>
-                <div className={styles.leftCol}>
-                    <TaskForm addTask={addTask} />
-                    <TaskFilters filters={filters} setFilters={setFilters} tasks={tasks} />  
-                </div>
+  const deleteTask = (id) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+  };
 
-                <section className={`${styles.card} ${styles.stack}`}>
-                    <div className={styles.cardHeader}>
-                        <h2 className={styles.cardTitle}>Task List</h2>
-                        <span className={styles.muted}>{filteredTasks.length} task(s)</span>
-                    </div>
-                    <TaskList tasks={filteredTasks} updateTask={updateTask} deleteTask={deleteTask} />
-                </section>
-            </div>
+  const filteredTasks = useMemo(() => {
+    return (tasks ?? []).filter((task) => {
+      return (
+        (filters.status === "All" || task.status === filters.status) &&
+        (filters.priority === "All" || task.priority === filters.priority) &&
+        (filters.subject === "All" || task.subject === filters.subject)
+      );
+    });
+  }, [tasks, filters]);
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.pageHead}>
+        <h1 className={styles.pageTitle}>Planner</h1>
+        <p className={styles.pageSubtitle}>Manage your tasks efficiently</p>
+      </div>
+
+      <div className={styles.plannerGrid}>
+        <div className={styles.leftCol}>
+          <TaskForm addTask={addTask} />
+          <TaskFilters filters={filters} setFilters={setFilters} tasks={tasks} />
         </div>
-    );
-} 
+
+        <section className={`${styles.card} ${styles.stack}`}>
+          <div className={styles.cardHeader}>
+            <h2 className={styles.cardTitle}>Task List</h2>
+            <span className={styles.muted}>{filteredTasks.length} task(s)</span>
+          </div>
+          <TaskList tasks={filteredTasks} updateTask={updateTask} deleteTask={deleteTask} />
+        </section>
+      </div>
+    </div>
+  );
+}
 
 export default PlannerPage;

@@ -6,11 +6,14 @@ import SettingsPage from "./pages/SettingsPage.jsx";
 
 import { useEffect, useState } from "react";
 
-/*
-  App stores shared state that pages can use.
-  Here we keep sessions in App so ProgressPage stays simple.
-  We also save sessions in localStorage so they still exist after refresh.
-*/
+// Temporary placeholder pages (until you build real ones)
+const HomePage = () => <div style={{ padding: 24 }}>Home</div>;
+const FeaturesPage = () => <div style={{ padding: 24 }}>Features</div>;
+const AboutPage = () => <div style={{ padding: 24 }}>About</div>;
+const DashboardPage = () => <div style={{ padding: 24 }}>Dashboard</div>;
+const PlannerPage = () => <div style={{ padding: 24 }}>Planner</div>;
+const TimerPage = () => <div style={{ padding: 24 }}>Timer</div>;
+
 export default function App() {
   const [tasks, setTasks] = useState([]);
   const [sessions, setSessions] = useState(() => {
@@ -18,10 +21,8 @@ export default function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Add a new session to the front (newest first)
   const addSession = (session) => setSessions((prev) => [session, ...prev]);
 
-  // Save sessions whenever they change
   useEffect(() => {
     localStorage.setItem("ss_sessions", JSON.stringify(sessions));
   }, [sessions]);
@@ -29,7 +30,15 @@ export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route index element={<Navigate to="/progress" replace />} />
+        {/* Pick what you want as the default page */}
+        <Route index element={<HomePage />} />
+
+        <Route path="home" element={<HomePage />} />
+        <Route path="features" element={<FeaturesPage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="planner" element={<PlannerPage />} />
+        <Route path="timer" element={<TimerPage />} />
 
         <Route
           path="progress"
@@ -44,7 +53,8 @@ export default function App() {
 
         <Route path="settings" element={<SettingsPage />} />
 
-        <Route path="*" element={<Navigate to="/progress" replace />} />
+        {/* Unknown routes go to home  */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );

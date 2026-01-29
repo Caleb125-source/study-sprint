@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import styles from "./ProgressPage.module.css";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const iso = (d) => d.toISOString().slice(0, 10);
@@ -70,58 +71,60 @@ export default function ProgressPage({ sessions = [] }) {
   const thisWeekHasSessions = sessions.some((s) => inThisWeek(s.date));
 
   return (
-    <div className="pageWrap">
-      <h1 className="pageTitle">Progress</h1>
-      <p className="pageSubtitle">Motivation + measurable improvement.</p>
+    <div className={styles.pageWrap}>
+      <h1 className={styles.pageTitle}>Progress</h1>
+      <p className={styles.pageSubtitle}>Motivation + measurable improvement.</p>
 
-      <div className="statsGrid">
-        <div className="card">
-          <div className="statLabel">Total focus minutes (this week)</div>
-          <div className="statValue">{stats.totalMinutes}</div>
+      <div className={styles.statsGrid}>
+        <div className={styles.card}>
+          <div className={styles.statLabel}>Total focus minutes (this week)</div>
+          <div className={styles.statValue}>{stats.totalMinutes}</div>
         </div>
 
-        <div className="card">
-          <div className="statLabel">Sessions completed (this week)</div>
-          <div className="statValue">{stats.sessionCount}</div>
+        <div className={styles.card}>
+          <div className={styles.statLabel}>Sessions completed (this week)</div>
+          <div className={styles.statValue}>{stats.sessionCount}</div>
         </div>
 
-        <div className="card">
-          <div className="statLabel">Streak days</div>
-          <div className="statValue">{stats.streak}</div>
+        <div className={styles.card}>
+          <div className={styles.statLabel}>Streak days</div>
+          <div className={styles.statValue}>{stats.streak}</div>
         </div>
       </div>
 
-      <div className="twoColGrid">
-        <div className="card">
-          <h2 className="cardTitle">Weekly Breakdown</h2>
+      <div className={styles.twoColGrid}>
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>Weekly Breakdown</h2>
 
           {!thisWeekHasSessions ? (
-            <p className="cardText">No sessions logged this week yet.</p>
+            <p className={styles.cardText}>No sessions logged this week yet.</p>
           ) : (
-            <div className="rowList">
+            <div className={styles.rowList}>
               {breakdown.map((d) => (
-                <div className="dayRow" key={d.name}>
-                  <div className="dayName">{d.name}</div>
-                  <div className="dayMinutes">{d.minutes} min</div>
+                <div className={styles.dayRow} key={d.name}>
+                  <div className={styles.dayName}>{d.name}</div>
+                  <div className={styles.dayMinutes}>{d.minutes} min</div>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div className="card">
-          <h2 className="cardTitle">Recent Sessions</h2>
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>Recent Sessions</h2>
 
           {recent.length === 0 ? (
-            <p className="cardText">Start a focus session in Timer to see it here.</p>
+            <p className={styles.cardText}>
+              Start a focus session in Timer to see it here.
+            </p>
           ) : (
             recent.map((s) => (
-              <div className="sessionRow" key={s.id}>
-                <div className="sessionLeft">
-                  <h4>{s.label}</h4>
-                  <p>{s.time}</p>
+              <div className={styles.sessionRow} key={s.id}>
+                <div className={styles.sessionLeft}>
+                  <h4 className={styles.sessionTitle}>{s.label}</h4>
+                  <p className={styles.sessionTime}>{s.time}</p>
                 </div>
-                <div className="sessionRight">{s.minutes} min</div>
+                <div className={styles.sessionRight}>{s.minutes} min</div>
               </div>
             ))
           )}

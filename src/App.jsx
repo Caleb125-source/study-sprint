@@ -3,6 +3,12 @@ import Layout from "./components/Layout";
 
 import LandingHomePage from "./pages/LandingHomePage";
 import FeaturesPage from "./pages/FeaturesPage";
+import AboutPage from "./pages/AboutPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import PlannerPage from "./components/PlannerPage.jsx";
+import TimerPage from "./components/TimerPage.jsx";
+import ProgressPage from "./pages/ProgressPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
 
 // temporary placeholders (until teammates finish)
 const AboutPage = () => <h2>About Page</h2>;

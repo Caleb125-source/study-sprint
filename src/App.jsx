@@ -1,8 +1,12 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 
 import LandingHomePage from "./pages/LandingHomePage";
 import FeaturesPage from "./pages/FeaturesPage";
+import AboutPage from "./pages/AboutPage";
+import HomePage from "./pages/HomePage";
+import PlannerPage from "./components/PlannerPage";
+import TimerPage from "./components/TimerPage";
 
 // temporary placeholders (until teammates finish)
 const AboutPage = () => <h2>About Page</h2>;

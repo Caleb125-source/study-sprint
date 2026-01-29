@@ -1,72 +1,32 @@
-import { useState } from 'react'
-import './App.css'
-import { PlannerPage } from './components/PlannerPage'
 import { Routes, Route } from "react-router-dom";
-import TimerPage from './components/TimerPage'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import Layout from "./components/Layout";
 
-// Main App Component
+import LandingHomePage from "./pages/LandingHomePage";
+import FeaturesPage from "./pages/FeaturesPage";
+
+// temporary placeholders (until teammates finish)
+const AboutPage = () => <h2>About Page</h2>;
+const HomePage = () => <h2>Dashboard</h2>;
+const PlannerPage = () => <h2>Planner</h2>;
+const TimerPage = () => <h2>Timer</h2>;
+const ProgressPage = () => <h2>Progress</h2>;
+const SettingsPage = () => <h2>Settings</h2>;
+
 function App() {
-  const [tasks, setTasks] = useState([])
-  // Function to add a new task
-  const addTask = (task) => {
-    setTasks((prevTasks) => [...prevTasks, task])
-  }
-  // Function to update a task's status
-  const updateTask = (id, updates) => {
-    setTasks(prev =>
-      prev.map(task =>
-        task.id === id ? { ...task, ...updates } : task
-      )
-    );
-  };
-  // Function to delete a task
-  const deleteTask = (id) => {
-    setTasks(prev => prev.filter(task => task.id !== id));
-  };
-
-  return (
-      <div>
-      <Routes>
-        <Route
-        path="/"
-        element={
-          <PlannerPage
-            tasks={tasks}
-            addTask={addTask}
-            updateTask={updateTask}
-            deleteTask={deleteTask}
-          />
-        }
-      />
-      </Routes>
-      
-      </div>
-    const [tasks, setTasks] = useState([]);
-  const [sessions, setSessions] = useState([]);
-
-  // Called when a new task is created
-  const addTask = (task) => {
-    setTasks((prev) => [
-      ...prev,
-      {
-        ...task,
-        id: crypto.randomUUID(),
-      },
-    ]);
-  };
-
-  // Called when a focus session completes
-  const addSession = (session) => {
-    setSessions((prev) => [...prev, session]);
-  };
-
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/timer" replace />} />
-      <Route path="/timer" element={<TimerPage tasks={tasks} addSession={addSession} />} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<LandingHomePage />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/dashboard" element={<HomePage />} />
+        <Route path="/planner" element={<PlannerPage />} />
+        <Route path="/timer" element={<TimerPage />} />
+        <Route path="/progress" element={<ProgressPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+      </Route>
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;

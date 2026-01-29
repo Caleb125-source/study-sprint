@@ -18,10 +18,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<LandingHomePage />} />
         <Route path="/features" element={<FeaturesPage />} />
-        <Route path="/about" element={<AboutPage />} />
         <Route path="/dashboard" element={<HomePage />} />
-        <Route path="/planner" element={<PlannerPage />} />
-        <Route path="/timer" element={<TimerPage />} />
         <Route path="/progress" element={<ProgressPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Route>

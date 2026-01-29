@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useRef, useState } from 'react';
-import { useSettings } from './SettingsContext';
+import { useSettings } from "../context/SettingsContext.jsx";
 import styles from "../styles/TimerPage.module.css";
 
 
@@ -12,22 +12,29 @@ function formatTime(seconds) {
   return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
-function TimerPage({ tasks, addSession }) {
-    const { settings } = useSettings();
+function TimerPage({ tasks = [], addSession }) {
+  const {
+    focusMinutes = 25,
+    shortBreakMinutes = 5,
+    longBreakMinutes = 15,
+  } = useSettings();
 
-    const modeMinutes = useMemo(() => ([
-    { key: 'Focus', duration: settings.focusMinutes },
-    { key: 'Short Break', duration: settings.shortBreakMinutes },
-    { key: 'Long Break', duration: settings.longBreakMinutes },
-  ]), [settings]);
+  const modeMinutes = useMemo(
+    () => [
+      { key: "Focus", duration: focusMinutes },
+      { key: "Short Break", duration: shortBreakMinutes },
+      { key: "Long Break", duration: longBreakMinutes },
+    ],
+    [focusMinutes, shortBreakMinutes, longBreakMinutes]
+  );
 
-  const [modeKey, setModeKey] = useState('Focus');
+  const [modeKey, setModeKey] = useState("Focus");
   const [running, setRunning] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState("");
 
-  const currentMode = modeMinutes.find(mode => mode.key === modeKey);
-    const [secondsLeft, setSecondsLeft] = useState(currentMode.duration * 60);
-    const [message, setMessage] = useState("");
+  const currentMode = modeMinutes.find((m) => m.key === modeKey) ?? modeMinutes[0];
+  const [secondsLeft, setSecondsLeft] = useState(currentMode.duration * 60);
+  const [message, setMessage] = useState("");
 
     const intervalRef = useRef(null);
 
@@ -136,7 +143,7 @@ function TimerPage({ tasks, addSession }) {
                             </button>
                         ))}
                     </div>
-                    <div className={styles.muted}>Focus : {settings.focusMinutes}m • Short Break : {settings.shortBreakMinutes}m • Long Break : {settings.longBreakMinutes}m</div>
+                    <div className={styles.muted}>Focus : {focusMinutes}m • Short Break : {shortBreakMinutes}m • Long Break : {longBreakMinutes}m</div>
                 </div>
 
                 <div className={styles.card}>

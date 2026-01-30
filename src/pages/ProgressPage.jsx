@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import styles from "./ProgressPage.module.css";
+import styles from "../styles/ProgressPage.module.css";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const iso = (d) => d.toISOString().slice(0, 10);
@@ -73,7 +73,7 @@ export default function ProgressPage({ sessions = [] }) {
   return (
     <div className={styles.pageWrap}>
       <h1 className={styles.pageTitle}>Progress</h1>
-      <p className={styles.pageSubtitle}>Motivation + measurable improvement.</p>
+      <p className={styles.pageSubtitle}>Measurable improvement.</p>
 
       <div className={styles.statsGrid}>
         <div className={styles.card}>

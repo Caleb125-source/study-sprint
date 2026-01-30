@@ -1,7 +1,10 @@
 .page {
-  max-width: 1120px;
+  /*max-width: 1120px;
   margin: 0 auto;
-  padding: 0px 18px 40px 18px;
+  padding: 0px 18px 40px 18px;*/
+  max-width: 1200px;
+  margin: auto;
+  padding: 2.5rem 2rem;
 }
 
 .page-head {
@@ -10,15 +13,18 @@
 }
 
 .title {
-  font-size: 44px;
+  /*font-size: 44px;
   line-height: 1.05;
   margin: 20px 0px;
   font-weight: 800;
-  text-align: left;
+  text-align: left;*/
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
 .subTitle {
-  margin: 20px 0px 50px 0px;
+  margin: 18px 0px 18px 0px;
   font-size: 14px;
   color: #667085;
   text-align: left;

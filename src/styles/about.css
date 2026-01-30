@@ -1,12 +1,12 @@
 .page {
-  max-width: 1200px;
+  max-width: 1140px;
   margin: auto;
   padding: 2.5rem 2rem;
 }
 
 .subtitle {
   color: #64748b;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 }
 
 .about-grid {
@@ -46,6 +46,18 @@
   display: flex;
   gap: 1rem;
 }
+
+.button-primary {
+  background-color: white;
+  color: #111827;
+  border: 1.5px solid #e5e7eb;
+}
+
+.button-primary:hover {
+  background-color: #2563eb;
+  color: white;
+}
+
 .help-item {
   display: flex;
   flex-direction: column;

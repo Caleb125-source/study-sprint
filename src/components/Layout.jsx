@@ -1,12 +1,12 @@
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 
-function Layout() {
+function Layout({ theme, setTheme }) {
   return (
     <div>
       <Navbar />
       <main style={{ padding: "2rem" }}>
-        <Outlet />
+        <Outlet context={{ theme, setTheme }} />
       </main>
     </div>
   );

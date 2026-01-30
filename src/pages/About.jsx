@@ -7,7 +7,7 @@ export default function About() {
   return (
     <div className="page">
       {/* HEADER */}
-      <h1>About StudySprint</h1>
+      <h1 style={{ fontSize:"30px", fontWeight:"700" }}>About StudySprint</h1>
       <p className="subtitle">
         A student-first productivity app designed for consistency and small daily wins.
       </p>
@@ -17,7 +17,7 @@ export default function About() {
         {/* LEFT CARD */}
         <div className="card about-left">
           <h3>Why we built it</h3>
-          <p>
+          <p style={{ color: "#64748b" }}>
             Studying is hard when tasks are scattered, time is unmanaged, and
             progress feels invisible. StudySprint combines planning, focus, and
             progress into one simple workflow.

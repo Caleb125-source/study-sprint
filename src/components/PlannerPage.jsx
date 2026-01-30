@@ -1,5 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import styles from '../styles/PlannerPage.module.css';
+
+const API_URL = "http://localhost:3001/tasks";
 
 function TaskForm({ addTask }) {
     const [title, setTitle] = useState("");
@@ -8,13 +10,12 @@ function TaskForm({ addTask }) {
     const [priority, setPriority] = useState("");
     const [status, setStatus] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         console.log("Submitting form");
         e.preventDefault();
-        if (title.trim() === "") return; // Prevent adding tasks with empty titles
+        if (title.trim() === "") return;
 
-        // Add task to the planner
-        addTask({ title: title.trim(), subject, dueDate, priority, status });
+        await addTask({ title: title.trim(), subject, dueDate, priority, status });
 
         // Reset form fields after submission
         setTitle("");
@@ -23,6 +24,7 @@ function TaskForm({ addTask }) {
         setPriority("");
         setStatus("");
     };
+    
     return (
         <form onSubmit={handleSubmit} className={styles.card}>
             <h2 className={styles.cardTitle}>Add Task</h2>
@@ -77,7 +79,7 @@ function TaskForm({ addTask }) {
                 <label className={styles.field}>
                     <span className={styles.label}>Status</span>
                     <select className={styles.select} value={status} onChange={(e) => setStatus(e.target.value)} required>
-                        <option value="">Select Priority</option>
+                        <option value="">Select Status</option>
                         <option value="To-Do">To-Do</option>
                         <option value="In Progress">In Progress</option>
                     </select>
@@ -138,17 +140,16 @@ function TaskItem({ task, updateTask, deleteTask }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState({ ...task });
 
-  const save = () => {
-    updateTask(task.id, draft);
+  const save = async () => {
+    await updateTask(task.id, draft);
     setEditing(false);
   };
 
   const cancel = () => {
-    setDraft({ ...task }); // reset edits
+    setDraft({ ...task });
     setEditing(false);
   };
 
-  // EDIT MODE: render a clean mini-form
   if (editing) {
     return (
       <div className={styles.taskRow}>
@@ -214,7 +215,6 @@ function TaskItem({ task, updateTask, deleteTask }) {
             </label>
           </div>
 
-          {/* Buttons aligned nicely */}
           <div className={styles.taskBtns} style={{ justifyContent: "flex-end" }}>
             <button className={`${styles.btn} ${styles.primary}`} onClick={save} type="button">
               Save
@@ -228,14 +228,12 @@ function TaskItem({ task, updateTask, deleteTask }) {
     );
   }
 
-  // VIEW MODE: compact row
   return (
     <div className={styles.taskRow}>
       <div className={styles.taskMain}>
         <div className={styles.taskTitle}>{task.title}</div>
 
         <div className={styles.taskMeta}>
-          {/*{task.subject ? <span className={styles.pill}>{task.subject}</span> : null}*/}
           {task.dueDate ? <span className={styles.muted}>Due: {task.dueDate}</span> : null}
           {task.status ? <span className={styles.pill}>{task.status}</span> : null}
         </div>
@@ -247,7 +245,8 @@ function TaskItem({ task, updateTask, deleteTask }) {
         <div className={styles.taskBtns}>
           <button
             className={styles.btn}
-            onClick={() => updateTask(task.id, { ...task, status: "Done" })}
+            onClick={() => updateTask(task.id, { status: "Done",
+            completedAt: new Date().toISOString() })}
             type="button"
           >
             Mark Done
@@ -278,39 +277,137 @@ function TaskList({ tasks, updateTask, deleteTask }) {
         </div>
     );
 }
+
 // Main Planner Page Component
-export function PlannerPage({ tasks, addTask, updateTask, deleteTask }) {
-    const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
-    const filteredTasks = useMemo(() => {
-        return tasks.filter(task => {
-            return (filters.status === "All" || task.status === filters.status) &&
-                (filters.priority === "All" || task.priority === filters.priority) &&
-                (filters.subject === "All" || task.subject === filters.subject);
+function PlannerPage({ onTaskUpdate }) {
+  const [tasks, setTasks] = useState([]);
+  const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
+  const [loading, setLoading] = useState(true);
 
-        });
-    }, [tasks, filters]);
+  // Fetch tasks on mount
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
+  const fetchTasks = async () => {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    
+    const response = await fetch(API_URL, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    
+    const data = await response.json();
+    setTasks(data);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    // Initialize with empty array if fetch fails
+    setTasks([]);
+  } finally {
+    setLoading(false);
+  }
+};
+
+  const addTask = async (task) => {
+    try {
+      const newTask = {
+        ...task,
+        createdAt: new Date().toISOString(),
+      };
+      
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newTask),
+      });
+      
+      const savedTask = await response.json();
+      setTasks((prev) => [savedTask, ...prev]);
+      
+      // Notify App to refresh tasks for Timer dropdown
+      if (onTaskUpdate) onTaskUpdate();
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
+  };
+
+  const updateTask = async (id, updates) => {
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+      
+      const updatedTask = await response.json();
+      setTasks((prev) => prev.map((t) => (t.id === id ? updatedTask : t)));
+      
+      // Notify App to refresh tasks for Timer dropdown
+      if (onTaskUpdate) onTaskUpdate();
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
+  };
+
+  const deleteTask = async (id) => {
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+      });
+      
+      setTasks((prev) => prev.filter((t) => t.id !== id));
+      
+      // Notify App to refresh tasks for Timer dropdown
+      if (onTaskUpdate) onTaskUpdate();
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
+  const filteredTasks = useMemo(() => {
+    return (tasks ?? []).filter((task) => {
+      return (
+        (filters.status === "All" || task.status === filters.status) &&
+        (filters.priority === "All" || task.priority === filters.priority) &&
+        (filters.subject === "All" || task.subject === filters.subject)
+      );
+    });
+  }, [tasks, filters]);
+
+  if (loading) {
     return (
-        <div className={styles.page}>
-            <div className={styles.pageHead}>
-                <h1 className={styles.pageTitle}>Planner</h1>
-                <p className={styles.pageSubtitle}>Manage your tasks efficiently</p>
-            </div>
-
-            <div className={styles.plannerGrid}>
-                <div className={styles.leftCol}>
-                    <TaskForm addTask={addTask} />
-                    <TaskFilters filters={filters} setFilters={setFilters} tasks={tasks} />  
-                </div>
-
-                <section className={`${styles.card} ${styles.stack}`}>
-                    <div className={styles.cardHeader}>
-                        <h2 className={styles.cardTitle}>Task List</h2>
-                        <span className={styles.muted}>{filteredTasks.length} task(s)</span>
-                    </div>
-                    <TaskList tasks={filteredTasks} updateTask={updateTask} deleteTask={deleteTask} />
-                </section>
-            </div>
+      <div className={styles.page}>
+        <div className={styles.pageHead}>
+          <h1 className={styles.pageTitle}>Planner</h1>
+          <p className={styles.pageSubtitle}>Loading...</p>
         </div>
+      </div>
     );
-} 
+  }
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.pageHead}>
+        <h1 className={styles.pageTitle}>Planner</h1>
+        <p className={styles.pageSubtitle}>Manage your tasks efficiently</p>
+      </div>
+
+      <div className={styles.plannerGrid}>
+        <div className={styles.leftCol}>
+          <TaskForm addTask={addTask} />
+          <TaskFilters filters={filters} setFilters={setFilters} tasks={tasks} />
+        </div>
+
+        <section className={`${styles.card} ${styles.stack}`}>
+          <div className={styles.cardHeader}>
+            <h2 className={styles.cardTitle}>Task List</h2>
+            <span className={styles.muted}>{filteredTasks.length} task(s)</span>
+          </div>
+          <TaskList tasks={filteredTasks} updateTask={updateTask} deleteTask={deleteTask} />
+        </section>
+      </div>
+    </div>
+  );
+}
+
+export default PlannerPage;

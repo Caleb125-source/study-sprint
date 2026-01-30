@@ -17,7 +17,7 @@ export default function About() {
         {/* LEFT CARD */}
         <div className="card about-left">
           <h3>Why we built it</h3>
-          <p>
+          <p style={{ color: "#64748b" }}>
             Studying is hard when tasks are scattered, time is unmanaged, and
             progress feels invisible. StudySprint combines planning, focus, and
             progress into one simple workflow.

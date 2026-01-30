@@ -196,6 +196,7 @@
 
 .toggleBtn:hover {
   background: #eef2ff;
+  color: #0f172a;
 }
 
 .toggleBtn:active {

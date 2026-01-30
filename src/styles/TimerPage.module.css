@@ -1,7 +1,10 @@
 .page {
-  max-width: 1120px;
+  /*max-width: 1120px;
   margin: 0 auto;
-  padding: 0px 18px 40px 18px;
+  padding: 0px 18px 40px 18px;*/
+  max-width: 1200px;
+  margin: auto;
+  padding: 2.5rem 2rem;
 }
 
 .page-head {
@@ -10,15 +13,18 @@
 }
 
 .title {
-  font-size: 44px;
+  /*font-size: 44px;
   line-height: 1.05;
   margin: 20px 0px;
   font-weight: 800;
-  text-align: left;
+  text-align: left;*/
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
 .subTitle {
-  margin: 20px 0px 50px 0px;
+  margin: 18px 0px 18px 0px;
   font-size: 14px;
   color: #667085;
   text-align: left;
@@ -29,6 +35,8 @@
   grid-template-columns: 1.1fr 1fr;
   gap: 18px;
   align-items: start;
+  min-height: calc(100vh - 200px);
+  align-items: stretch;
 }
 
 @media (max-width: 900px) {
@@ -48,12 +56,14 @@
   border-radius: 14px;
   padding: 22px;
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+  /*height: 100%;*/
 }
 
 .cardTitle {
   margin: 0 0 14px;
   font-size: 18px;
   font-weight: 700;
+  padding: 10px 0 10px 0;
 }
 
 .pill {
@@ -73,7 +83,10 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   color: #2563eb;
-  margin: 8px 0 20px;
+  /*margin: 20px 0 20px;*/
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 25px 0 25px 0;
 }
 
 .actions {
@@ -113,7 +126,7 @@
 
 .ghost {
   background: transparent;
-  border-color: transparent;
+  border-color: #d0d5dd;
   color: #475467;
 }
 

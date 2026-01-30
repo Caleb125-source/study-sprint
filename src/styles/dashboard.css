@@ -1,0 +1,202 @@
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.subtitle {
+  color: #64748b;
+  margin-bottom: 0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+}
+
+.tasks-card p {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+.stat-card {
+  text-align: center;
+}
+
+.stat-card p {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.stat-card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.quick-card {
+  margin-top: 1rem;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.muted {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+}
+
+.stat-card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+  color: #2563eb;
+}
+
+/* spacing for the planner button without inline styles */
+.dashboardBtn {
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+/* --- Today's Tasks list --- */
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0.9rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.taskItem {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  background: #fff;
+}
+
+.taskTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.taskTitle {
+  font-weight: 700;
+}
+
+.taskMetaRow {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.metaPill {
+  font-size: 0.85rem;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+
+/* Priority pills */
+.priorityPill {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+}
+
+.priority-High {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.priority-Medium {
+  background: #ffedd5;
+  color: #9a3412;
+  border-color: #fed7aa;
+}
+
+.priority-Low {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+/* --- Completed each day list --- */
+.sevenDayWrap {
+  margin-top: 0.75rem;
+}
+
+.dayList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.dayItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
+  background: #f8fafc;
+}
+
+.dayLabel {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.dayCount {
+  font-weight: 700;
+  color: #2563eb;
+  min-width: 2ch;
+  text-align: right;
+}

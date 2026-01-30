@@ -7,7 +7,7 @@ export default function About() {
   return (
     <div className="page">
       {/* HEADER */}
-      <h1>About StudySprint</h1>
+      <h1 style={{ fontSize:"30px", fontWeight:"700" }}>About StudySprint</h1>
       <p className="subtitle">
         A student-first productivity app designed for consistency and small daily wins.
       </p>

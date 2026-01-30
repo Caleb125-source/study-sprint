@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import styles from "../styles/ProgressPage.module.css";
+import { useSessions } from "../context/SessionsContext.jsx";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const iso = (d) => d.toISOString().slice(0, 10);
@@ -12,7 +13,8 @@ function getMonday(today = new Date()) {
   return d;
 }
 
-export default function ProgressPage({ sessions = [] }) {
+export default function ProgressPage() {
+  const { sessions } = useSessions();
   const monday = useMemo(() => getMonday(), []);
 
   const sunday = useMemo(() => {

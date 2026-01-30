@@ -1,8 +1,82 @@
 {
   "settings": {
     "theme": "light",
-    "focusMinutes": 25,
-    "shortBreakMinutes": 5,
+    "focusMinutes": 1,
+    "shortBreakMinutes": 1,
     "longBreakMinutes": 15
-  }
+  },
+  "tasks": [
+    {
+      "id": "b817",
+      "title": "Math",
+      "subject": "Math",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T14:32:09.758Z",
+      "completedAt": "2026-01-30T15:40:44.084Z"
+    },
+    {
+      "id": "cc2f",
+      "title": "English",
+      "subject": "English",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T14:57:26.526Z",
+      "completedAt": "2026-01-30T16:09:44.769Z"
+    },
+    {
+      "id": "8b7d",
+      "title": "CRE",
+      "subject": "CRE",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T16:05:22.297Z",
+      "completedAt": "2026-01-30T16:05:44.618Z"
+    },
+    {
+      "id": "cfe0",
+      "title": "Chem",
+      "subject": "Chem",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T16:10:13.384Z",
+      "completedAt": "2026-01-30T16:10:34.386Z"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "4de5",
+      "date": "2026-01-30",
+      "time": "06:45 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": null,
+      "startedAt": "2026-01-30T15:45:46.416Z",
+      "createdAt": "2026-01-30T15:46:46.436Z"
+    },
+    {
+      "id": "345d",
+      "date": "2026-01-30",
+      "time": "06:57 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": null,
+      "startedAt": "2026-01-30T15:57:18.069Z",
+      "createdAt": "2026-01-30T15:58:18.154Z"
+    },
+    {
+      "id": "db9f",
+      "date": "2026-01-30",
+      "time": "07:10 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": null,
+      "startedAt": "2026-01-30T16:10:47.590Z",
+      "createdAt": "2026-01-30T16:11:47.795Z"
+    }
+  ]
 }

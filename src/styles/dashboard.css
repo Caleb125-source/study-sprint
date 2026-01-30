@@ -1,12 +1,12 @@
 .page {
   max-width: 1200px;
-  margin: auto;
+  margin: 0 auto;
   padding: 2.5rem 2rem;
 }
 
 .subtitle {
   color: #64748b;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 }
 
 .dashboard-grid {

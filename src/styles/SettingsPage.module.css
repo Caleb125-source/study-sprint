@@ -215,6 +215,34 @@
   font-size: 14px;
 }
 
+body.dark .pageWrap {
+  background: #020617;
+}
+
+body.dark .card {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #334155;
+}
+
+body.dark .cardTitle {
+  color: #f8fafc;
+}
+
+body.dark .cardText {
+  color: #cbd5f5;
+}
+
+body.dark .toggleBtn {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+body.dark .toggleActive {
+  background: #2563eb;
+  color: white;
+}
+
 .label {
   display: block;
   margin: 14px 0 8px;

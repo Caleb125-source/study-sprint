@@ -33,9 +33,16 @@ export function SettingsProvider({ children }) {
     load();
   }, []);
 
-  //  Apply theme to <html>
+  //  Apply theme to <html> and <body>
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    
+    // Add/remove 'dark' class on body element
+    if (theme === "dark") {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
   }, [theme]);
 
   // Auto-save to db.json whenever values change 

@@ -62,14 +62,14 @@ button {
 }
 
 .page h1 {
-  font-size: 2.25rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.25rem;
 }
 
 .page .subtitle {
   color: var(--text-muted);
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
 /* =========================
@@ -124,7 +124,7 @@ button {
   height: 64px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content:space-around;
 
   padding: 0 2rem;
   background: white;

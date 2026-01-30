@@ -245,7 +245,8 @@ function TaskItem({ task, updateTask, deleteTask }) {
         <div className={styles.taskBtns}>
           <button
             className={styles.btn}
-            onClick={() => updateTask(task.id, { ...task, status: "Done" })}
+            onClick={() => updateTask(task.id, { status: "Done",
+            completedAt: new Date().toISOString() })}
             type="button"
           >
             Mark Done

@@ -115,6 +115,8 @@ button {
    NAVBAR
    ========================= */
 
+/* Navbar styles with dark mode support */
+
 .navbar {
   position: fixed;
   top: 0;
@@ -124,18 +126,20 @@ button {
   height: 64px;
   display: flex;
   align-items: center;
-  justify-content:space-around;
+  justify-content: space-around;
 
   padding: 0 2rem;
   background: white;
   border-bottom: 1px solid var(--border);
   z-index: 1000;
+  transition: background 200ms ease, border-color 200ms ease;
 }
 
 .logo {
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--blue);
+  transition: color 200ms ease;
 }
 
 .nav-links {
@@ -149,6 +153,7 @@ button {
   padding: 0.4rem 0.75rem;
   border-radius: 8px;
   color: var(--text-muted);
+  transition: background 200ms ease, color 200ms ease;
 }
 
 .nav-links a.active {
@@ -156,8 +161,71 @@ button {
   color: white;
 }
 
+/* Dark mode styles */
+body.dark .navbar {
+  background: #0f172a; /* slate-900 */
+  border-bottom: 1px solid #1e293b; /* slate-800 */
+}
+
+body.dark .logo {
+  color: #60a5fa; /* blue-400 - lighter blue for dark mode */
+}
+
+body.dark .nav-links a {
+  color: #cbd5e1; /* slate-300 */
+}
+
+body.dark .nav-links a:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: #e2e8f0;
+}
+
+body.dark .nav-links a.active {
+  background: var(--blue);
+  color: white;
+}
+
+body.dark .divider {
+  background: #334155; /* darker divider in dark mode */
+}
+
+/* If you have a divider */
 .divider {
   width: 1px;
-  height: 20px;
-  background: var(--border);
+  height: 24px;
+  background: #e2e8f0;
+  margin: 0 8px;
+  transition: background 200ms ease;
+}
+
+body.light {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+body.dark {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+/* cards */
+body.dark .card {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #334155;
+}
+
+/* inputs */
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background-color: #020617;
+  color: #fff;
+  border: 1px solid #334155;
+}
+
+/* buttons */
+body.dark button {
+  background-color: #2563eb;
+  color: white;
 }

@@ -84,13 +84,18 @@ button {
 }
 
 .btn-primary {
-  background: var(--blue);
-  color: white;
-  border: none;
+  background: white;
+  color: #111827; 
+  border: 1.5px solid #e5e7eb;
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  color: white;
 }
 
 .btn-outline {
@@ -99,6 +104,11 @@ button {
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.btn-outline:hover {
+  background-color: #2563eb;
+  color: white;
 }
 
 /* =========================

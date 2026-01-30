@@ -2,7 +2,14 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 
 const SessionsContext = createContext(null);
 
-const iso = (d) => new Date(d).toISOString().slice(0, 10);
+// Get local date string in YYYY-MM-DD format (not UTC)
+const getLocalDateString = (date) => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 export function SessionsProvider({ children }) {
   const [sessions, setSessions] = useState(() => {
@@ -23,7 +30,7 @@ export function SessionsProvider({ children }) {
 
     const session = {
       id: crypto.randomUUID(),
-      date: iso(d),
+      date: getLocalDateString(d), // Use LOCAL date, not UTC
       time: d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       label: minutes > 0 ? "Focus Session" : "Skipped Session",
       minutes,

@@ -46,6 +46,13 @@
   display: flex;
   gap: 1rem;
 }
+
+.btn-primary {
+  background-color: white;
+  color: #111827;
+  border: 1.5px solid #e5e7eb;
+}
+
 .help-item {
   display: flex;
   flex-direction: column;

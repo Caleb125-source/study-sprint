@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSettings } from "../context/SettingsContext";
-import styles from "./SettingsPage.module.css";
+import styles from "../styles/SettingsPage.module.css";
 
 export default function SettingsPage() {
   const {

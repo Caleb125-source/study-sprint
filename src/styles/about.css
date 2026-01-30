@@ -1,12 +1,12 @@
 .page {
-  max-width: 1200px;
+  max-width: 1140px;
   margin: auto;
   padding: 2.5rem 2rem;
 }
 
 .subtitle {
   color: #64748b;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 }
 
 .about-grid {

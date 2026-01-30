@@ -44,6 +44,7 @@ function TimerPage({ tasks = [] }) {
   const endTimeRef = useRef(null);
   const completedRef = useRef(false);
   const intervalRef = useRef(null);
+  const sessionStartTimeRef = useRef(null); // Track when session actually started
   
   // State only for UI updates
   const [displaySeconds, setDisplaySeconds] = useState(currentMode.duration * 60);
@@ -56,9 +57,14 @@ function TimerPage({ tasks = [] }) {
     const savedPaused = localStorage.getItem("timer_paused") === "true";
     const savedSeconds = Number(localStorage.getItem("timer_seconds"));
     const savedMode = localStorage.getItem("timer_mode");
+    const savedSessionStart = localStorage.getItem("timer_session_start");
     
     if (savedMode) {
       setModeKey(savedMode);
+    }
+    
+    if (savedSessionStart) {
+      sessionStartTimeRef.current = savedSessionStart;
     }
     
     if (savedPaused && savedSeconds) {
@@ -88,6 +94,7 @@ function TimerPage({ tasks = [] }) {
         localStorage.removeItem("timer_mode");
         localStorage.removeItem("timer_paused");
         localStorage.removeItem("timer_seconds");
+        localStorage.removeItem("timer_session_start");
       }
     }
   }, []);
@@ -118,23 +125,36 @@ function TimerPage({ tasks = [] }) {
         setIsRunning(false);
         setMessage("Session complete ✅");
         endTimeRef.current = null;
+        
+        // Clear localStorage
         localStorage.removeItem("timer_end");
         localStorage.removeItem("timer_mode");
         localStorage.removeItem("timer_paused");
         localStorage.removeItem("timer_seconds");
+        localStorage.removeItem("timer_session_start");
 
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
           intervalRef.current = null;
         }
 
+        // Add session only for Focus mode
         if (modeKey === "Focus") {
+          const sessionStart = sessionStartTimeRef.current || new Date().toISOString();
           addSession({
-            startedAt: new Date().toISOString(),
+            startedAt: sessionStart,
+            minutes: currentMode.duration,
+            taskId: selectedTaskId || null,
+          });
+          console.log("✅ Session added:", {
+            startedAt: sessionStart,
             minutes: currentMode.duration,
             taskId: selectedTaskId || null,
           });
         }
+        
+        // Reset session start time
+        sessionStartTimeRef.current = null;
       }
     };
 
@@ -176,6 +196,13 @@ function TimerPage({ tasks = [] }) {
 
   const start = () => {
     completedRef.current = false;
+    
+    // Record session start time when starting a fresh timer
+    if (!isPausedRef.current) {
+      sessionStartTimeRef.current = new Date().toISOString();
+      localStorage.setItem("timer_session_start", sessionStartTimeRef.current);
+    }
+    
     endTimeRef.current = Date.now() + secondsLeftRef.current * 1000;
     runningRef.current = true;
     isPausedRef.current = false;
@@ -209,6 +236,7 @@ function TimerPage({ tasks = [] }) {
     runningRef.current = false;
     isPausedRef.current = false;
     endTimeRef.current = null;
+    sessionStartTimeRef.current = null;
     
     const newSeconds = currentMode.duration * 60;
     secondsLeftRef.current = newSeconds;
@@ -217,6 +245,7 @@ function TimerPage({ tasks = [] }) {
     localStorage.removeItem("timer_mode");
     localStorage.removeItem("timer_paused");
     localStorage.removeItem("timer_seconds");
+    localStorage.removeItem("timer_session_start");
     
     setDisplaySeconds(newSeconds);
     setIsRunning(false);
@@ -233,22 +262,40 @@ function TimerPage({ tasks = [] }) {
     localStorage.removeItem("timer_mode");
     localStorage.removeItem("timer_paused");
     localStorage.removeItem("timer_seconds");
+    localStorage.removeItem("timer_session_start");
     
     setMessage("Session skipped ⏭️");
     setIsRunning(false);
     setIsPaused(false);
-    setDisplaySeconds(0);
     
+    // Only add skipped session for Focus mode
     if (modeKey === "Focus") {
+      const sessionStart = sessionStartTimeRef.current || new Date().toISOString();
       addSession({
-        startedAt: new Date().toISOString(),
+        startedAt: sessionStart,
         minutes: 0,
         taskId: selectedTaskId || null,
       });
-      setModeKey("Short Break");
-    } else {
-      setModeKey("Focus");
+      console.log("⏭️ Skipped session added");
     }
+    
+    // Reset session start time
+    sessionStartTimeRef.current = null;
+    
+    // Reset timer to current mode's duration
+    const newSeconds = currentMode.duration * 60;
+    secondsLeftRef.current = newSeconds;
+    setDisplaySeconds(newSeconds);
+    
+    // Switch mode after a brief delay so user sees the skip message
+    setTimeout(() => {
+      if (modeKey === "Focus") {
+        setModeKey("Short Break");
+      } else {
+        setModeKey("Focus");
+      }
+      setMessage("");
+    }, 1000);
   };
 
   return (

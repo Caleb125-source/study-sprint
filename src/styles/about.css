@@ -47,10 +47,15 @@
   gap: 1rem;
 }
 
-.btn-primary {
+.button-primary {
   background-color: white;
   color: #111827;
   border: 1.5px solid #e5e7eb;
+}
+
+.button-primary:hover {
+  background-color: #2563eb;
+  color: white;
 }
 
 .help-item {

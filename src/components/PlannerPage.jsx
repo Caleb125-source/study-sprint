@@ -290,16 +290,23 @@ function PlannerPage({ onTaskUpdate }) {
   }, []);
 
   const fetchTasks = async () => {
-    try {
-      const response = await fetch(API_URL);
-      const data = await response.json();
-      setTasks(data);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    
+    const response = await fetch(API_URL, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    
+    const data = await response.json();
+    setTasks(data);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    // Initialize with empty array if fetch fails
+    setTasks([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const addTask = async (task) => {
     try {

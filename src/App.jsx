@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
-import { useState, useEffect } from "react"
+import { useState, useCallback, useEffect } from "react"
 
 import LandingHomePage from "./pages/LandingHomePage";
 import FeaturesPage from "./pages/FeaturesPage";
@@ -12,13 +12,31 @@ import ProgressPage from "./pages/ProgressPage";
 import SettingsPage from "./pages/SettingsPage";
 
 
+
 function App() {
   const [theme, setTheme] = useState("light");
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     document.body.classList.remove("light", "dark");
     document.body.classList.add(theme);
-  }, [theme])
+  }, [theme]);
+
+  const fetchTasks = useCallback(async () => {
+    try {
+      const response = await fetch("http://localhost:3001/tasks");
+      const data = await response.json();
+      setTasks(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      setTasks([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
 
   return (
     <Routes>
@@ -27,8 +45,8 @@ function App() {
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/planner" element={<PlannerPage />} />
-        <Route path="/timer" element={<TimerPage tasks={[]} />} />
+        <Route path="/planner" element={<PlannerPage onTaskUpdate={fetchTasks} />} />
+        <Route path="/timer" element={<TimerPage tasks={tasks} />} />
         <Route path="/progress" element={<ProgressPage />} />
         <Route path="/settings" element={<SettingsPage theme={theme} setTheme={setTheme} />} />
       </Route>

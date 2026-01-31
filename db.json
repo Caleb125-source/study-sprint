@@ -151,11 +151,12 @@
       "id": "48b1",
       "title": "Assignment",
       "subject": "math",
-      "dueDate": "2026-01-31",
+      "dueDate": "2026-02-01",
       "priority": "Medium",
-      "status": "In Progress",
+      "status": "Done",
       "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
-      "createdAt": "2026-01-31T12:04:30.639Z"
+      "createdAt": "2026-01-31T12:04:30.639Z",
+      "completedAt": "2026-01-31T21:44:45.133Z"
     },
     {
       "id": "edcd",
@@ -166,7 +167,7 @@
       "status": "Done",
       "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
       "createdAt": "2026-01-31T15:33:58.695Z",
-      "completedAt": "2026-01-31T21:08:26.466Z"
+      "completedAt": "2026-01-31T21:26:05.476Z"
     },
     {
       "id": "67ee",
@@ -185,9 +186,10 @@
       "subject": "Article",
       "dueDate": "2026-02-02",
       "priority": "Low",
-      "status": "To-Do",
+      "status": "Done",
       "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
-      "createdAt": "2026-01-31T17:45:30.370Z"
+      "createdAt": "2026-01-31T17:45:30.370Z",
+      "completedAt": "2026-01-31T21:26:07.595Z"
     },
     {
       "id": "7557",
@@ -239,6 +241,26 @@
       "status": "To-Do",
       "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
       "createdAt": "2026-01-31T21:10:25.163Z"
+    },
+    {
+      "id": "419c",
+      "title": "homework",
+      "subject": "history",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T21:26:36.045Z"
+    },
+    {
+      "id": "205a",
+      "title": "Homework",
+      "subject": "chem",
+      "dueDate": "2026-02-02",
+      "priority": "Medium",
+      "status": "To-Do",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "createdAt": "2026-01-31T21:45:15.000Z"
     }
   ],
   "sessions": [
@@ -362,6 +384,28 @@
       "taskId": null,
       "startedAt": "2026-01-31T21:02:27.494Z",
       "createdAt": "2026-01-31T21:03:27.503Z"
+    },
+    {
+      "id": "29fc",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "date": "2026-02-01",
+      "time": "12:43 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "48b1",
+      "startedAt": "2026-01-31T21:43:35.859Z",
+      "createdAt": "2026-01-31T21:44:35.872Z"
+    },
+    {
+      "id": "d4ac",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "date": "2026-02-01",
+      "time": "12:45 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "205a",
+      "startedAt": "2026-01-31T21:45:26.332Z",
+      "createdAt": "2026-01-31T21:46:26.419Z"
     }
   ]
 }

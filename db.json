@@ -41,6 +41,12 @@
       "name": "Caleb",
       "email": "Caleb@gmail.com",
       "password": "12345"
+    },
+    {
+      "id": "9393d8ed-8dbc-46ca-8eaa-c73202ecf3a0",
+      "name": "Joy",
+      "email": "JoyB@gmail.com",
+      "password": "12345"
     }
   ],
   "tasks": [
@@ -155,11 +161,12 @@
       "id": "edcd",
       "title": "Assignment",
       "subject": "React",
-      "dueDate": "2026-02-01",
+      "dueDate": "2026-01-31",
       "priority": "Medium",
-      "status": "In Progress",
+      "status": "Done",
       "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
-      "createdAt": "2026-01-31T15:33:58.695Z"
+      "createdAt": "2026-01-31T15:33:58.695Z",
+      "completedAt": "2026-01-31T21:08:26.466Z"
     },
     {
       "id": "67ee",
@@ -167,10 +174,10 @@
       "subject": "Math",
       "dueDate": "2026-01-31",
       "priority": "High",
-      "status": "To-Do",
+      "status": "Done",
       "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
       "createdAt": "2026-01-31T15:44:23.374Z",
-      "completedAt": "2026-01-31T15:44:44.907Z"
+      "completedAt": "2026-01-31T21:04:04.224Z"
     },
     {
       "id": "7d13",
@@ -201,6 +208,37 @@
       "status": "To-Do",
       "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
       "createdAt": "2026-01-31T18:16:10.692Z"
+    },
+    {
+      "id": "13f6",
+      "title": "homework",
+      "subject": "eng",
+      "dueDate": "2026-02-02",
+      "priority": "Medium",
+      "status": "In Progress",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T21:02:08.293Z"
+    },
+    {
+      "id": "3073",
+      "title": "homework",
+      "subject": "phy",
+      "dueDate": "2026-02-01",
+      "priority": "Medium",
+      "status": "Done",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T21:04:42.392Z",
+      "completedAt": "2026-01-31T21:05:30.099Z"
+    },
+    {
+      "id": "c3de",
+      "title": "Homework",
+      "subject": "Bio",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T21:10:25.163Z"
     }
   ],
   "sessions": [
@@ -313,6 +351,17 @@
       "taskId": "7557",
       "startedAt": "2026-01-31T18:18:38.186Z",
       "createdAt": "2026-01-31T18:19:38.431Z"
+    },
+    {
+      "id": "f818",
+      "userId": "9393d8ed-8dbc-46ca-8eaa-c73202ecf3a0",
+      "date": "2026-02-01",
+      "time": "12:02 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": null,
+      "startedAt": "2026-01-31T21:02:27.494Z",
+      "createdAt": "2026-01-31T21:03:27.503Z"
     }
   ]
 }

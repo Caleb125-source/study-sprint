@@ -2,11 +2,14 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 export default function ProtectedRoute({ children }) {
-  const { user } = useAuth();
+  const { user, isBooting } = useAuth();
   const location = useLocation();
 
+  if (isBooting) {
+    return <div style={{ padding: "2rem", textAlign: "center" }}>Loading… </div>;
+  }
+
   if (!user) {
-    // send user to login, and remember where they were trying to go
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

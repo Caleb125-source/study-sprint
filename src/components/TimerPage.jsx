@@ -3,7 +3,6 @@ import { useSettings } from "../context/SettingsContext.jsx";
 import styles from "../styles/TimerPage.module.css";
 import { useSessions } from "../context/SessionsContext.jsx";
 
-
 function formatTime(seconds) {
   const safeSeconds = Number.isFinite(seconds) ? seconds : 0;
 
@@ -37,6 +36,10 @@ function TimerPage({ tasks = [] }) {
 
   const currentMode = modeMinutes.find((m) => m.key === modeKey) ?? modeMinutes[0];
 
+  //  USER-SCOPED localStorage keys
+  const userId = localStorage.getItem("currentUserId") || "guest";
+  const K = (name) => `timer_${userId}_${name}`;
+
   // Use refs for timer state to avoid re-render issues
   const runningRef = useRef(false);
   const isPausedRef = useRef(false);
@@ -45,28 +48,28 @@ function TimerPage({ tasks = [] }) {
   const completedRef = useRef(false);
   const intervalRef = useRef(null);
   const sessionStartTimeRef = useRef(null); // Track when session actually started
-  
+
   // State only for UI updates
   const [displaySeconds, setDisplaySeconds] = useState(currentMode.duration * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Initialize from localStorage once on mount
+  //  Initialize from localStorage (per user) on mount + when user changes
   useEffect(() => {
-    const savedEnd = Number(localStorage.getItem("timer_end"));
-    const savedPaused = localStorage.getItem("timer_paused") === "true";
-    const savedSeconds = Number(localStorage.getItem("timer_seconds"));
-    const savedMode = localStorage.getItem("timer_mode");
-    const savedSessionStart = localStorage.getItem("timer_session_start");
-    
+    const savedEnd = Number(localStorage.getItem(K("end")));
+    const savedPaused = localStorage.getItem(K("paused")) === "true";
+    const savedSeconds = Number(localStorage.getItem(K("seconds")));
+    const savedMode = localStorage.getItem(K("mode"));
+    const savedSessionStart = localStorage.getItem(K("session_start"));
+
     if (savedMode) {
       setModeKey(savedMode);
     }
-    
+
     if (savedSessionStart) {
       sessionStartTimeRef.current = savedSessionStart;
     }
-    
+
     if (savedPaused && savedSeconds) {
       // Restore paused state
       secondsLeftRef.current = savedSeconds;
@@ -77,7 +80,7 @@ function TimerPage({ tasks = [] }) {
       setIsRunning(false);
       return;
     }
-    
+
     if (savedEnd) {
       const msLeft = savedEnd - Date.now();
       const next = Math.max(0, Math.ceil(msLeft / 1000));
@@ -90,14 +93,24 @@ function TimerPage({ tasks = [] }) {
         setIsRunning(true);
         setIsPaused(false);
       } else {
-        localStorage.removeItem("timer_end");
-        localStorage.removeItem("timer_mode");
-        localStorage.removeItem("timer_paused");
-        localStorage.removeItem("timer_seconds");
-        localStorage.removeItem("timer_session_start");
+        localStorage.removeItem(K("end"));
+        localStorage.removeItem(K("mode"));
+        localStorage.removeItem(K("paused"));
+        localStorage.removeItem(K("seconds"));
+        localStorage.removeItem(K("session_start"));
       }
+    } else {
+      // If no saved state for this user, ensure UI matches current mode duration
+      const newSeconds = currentMode.duration * 60;
+      secondsLeftRef.current = newSeconds;
+      setDisplaySeconds(newSeconds);
+      runningRef.current = false;
+      isPausedRef.current = false;
+      setIsRunning(false);
+      setIsPaused(false);
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   // Reset timer when mode changes
   useEffect(() => {
@@ -112,7 +125,7 @@ function TimerPage({ tasks = [] }) {
   useEffect(() => {
     const updateTimer = () => {
       if (!runningRef.current || !endTimeRef.current) return;
-      
+
       const msLeft = endTimeRef.current - Date.now();
       const next = Math.max(0, Math.ceil(msLeft / 1000));
       secondsLeftRef.current = next;
@@ -123,15 +136,15 @@ function TimerPage({ tasks = [] }) {
         completedRef.current = true;
         runningRef.current = false;
         setIsRunning(false);
-        setMessage("Session complete ✅");
+        setMessage("Session complete ");
         endTimeRef.current = null;
-        
-        // Clear localStorage
-        localStorage.removeItem("timer_end");
-        localStorage.removeItem("timer_mode");
-        localStorage.removeItem("timer_paused");
-        localStorage.removeItem("timer_seconds");
-        localStorage.removeItem("timer_session_start");
+
+        // Clear localStorage (per user)
+        localStorage.removeItem(K("end"));
+        localStorage.removeItem(K("mode"));
+        localStorage.removeItem(K("paused"));
+        localStorage.removeItem(K("seconds"));
+        localStorage.removeItem(K("session_start"));
 
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
@@ -146,13 +159,13 @@ function TimerPage({ tasks = [] }) {
             minutes: currentMode.duration,
             taskId: selectedTaskId || null,
           });
-          console.log("✅ Session added:", {
+          console.log(" Session added:", {
             startedAt: sessionStart,
             minutes: currentMode.duration,
             taskId: selectedTaskId || null,
           });
         }
-        
+
         // Reset session start time
         sessionStartTimeRef.current = null;
       }
@@ -172,13 +185,13 @@ function TimerPage({ tasks = [] }) {
         intervalRef.current = null;
       }
     };
-  }, [isRunning, modeKey, currentMode.duration, selectedTaskId, addSession]);
+  }, [isRunning, modeKey, currentMode.duration, selectedTaskId, addSession, userId]);
 
   // Sync on visibility change
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden || !runningRef.current || !endTimeRef.current) return;
-      
+
       const msLeft = endTimeRef.current - Date.now();
       const next = Math.max(0, Math.ceil(msLeft / 1000));
       secondsLeftRef.current = next;
@@ -196,22 +209,22 @@ function TimerPage({ tasks = [] }) {
 
   const start = () => {
     completedRef.current = false;
-    
+
     // Record session start time when starting a fresh timer
     if (!isPausedRef.current) {
       sessionStartTimeRef.current = new Date().toISOString();
-      localStorage.setItem("timer_session_start", sessionStartTimeRef.current);
+      localStorage.setItem(K("session_start"), sessionStartTimeRef.current);
     }
-    
+
     endTimeRef.current = Date.now() + secondsLeftRef.current * 1000;
     runningRef.current = true;
     isPausedRef.current = false;
-    
-    localStorage.setItem("timer_end", String(endTimeRef.current));
-    localStorage.setItem("timer_mode", modeKey);
-    localStorage.removeItem("timer_paused");
-    localStorage.removeItem("timer_seconds");
-    
+
+    localStorage.setItem(K("end"), String(endTimeRef.current));
+    localStorage.setItem(K("mode"), modeKey);
+    localStorage.removeItem(K("paused"));
+    localStorage.removeItem(K("seconds"));
+
     setIsRunning(true);
     setIsPaused(false);
     setMessage("");
@@ -221,12 +234,12 @@ function TimerPage({ tasks = [] }) {
     runningRef.current = false;
     isPausedRef.current = true;
     endTimeRef.current = null;
-    
-    localStorage.setItem("timer_paused", "true");
-    localStorage.setItem("timer_seconds", String(secondsLeftRef.current));
-    localStorage.setItem("timer_mode", modeKey);
-    localStorage.removeItem("timer_end");
-    
+
+    localStorage.setItem(K("paused"), "true");
+    localStorage.setItem(K("seconds"), String(secondsLeftRef.current));
+    localStorage.setItem(K("mode"), modeKey);
+    localStorage.removeItem(K("end"));
+
     setIsRunning(false);
     setIsPaused(true);
   };
@@ -237,16 +250,16 @@ function TimerPage({ tasks = [] }) {
     isPausedRef.current = false;
     endTimeRef.current = null;
     sessionStartTimeRef.current = null;
-    
+
     const newSeconds = currentMode.duration * 60;
     secondsLeftRef.current = newSeconds;
-    
-    localStorage.removeItem("timer_end");
-    localStorage.removeItem("timer_mode");
-    localStorage.removeItem("timer_paused");
-    localStorage.removeItem("timer_seconds");
-    localStorage.removeItem("timer_session_start");
-    
+
+    localStorage.removeItem(K("end"));
+    localStorage.removeItem(K("mode"));
+    localStorage.removeItem(K("paused"));
+    localStorage.removeItem(K("seconds"));
+    localStorage.removeItem(K("session_start"));
+
     setDisplaySeconds(newSeconds);
     setIsRunning(false);
     setIsPaused(false);
@@ -257,17 +270,17 @@ function TimerPage({ tasks = [] }) {
     endTimeRef.current = null;
     runningRef.current = false;
     isPausedRef.current = false;
-    
-    localStorage.removeItem("timer_end");
-    localStorage.removeItem("timer_mode");
-    localStorage.removeItem("timer_paused");
-    localStorage.removeItem("timer_seconds");
-    localStorage.removeItem("timer_session_start");
-    
-    setMessage("Session skipped ⏭️");
+
+    localStorage.removeItem(K("end"));
+    localStorage.removeItem(K("mode"));
+    localStorage.removeItem(K("paused"));
+    localStorage.removeItem(K("seconds"));
+    localStorage.removeItem(K("session_start"));
+
+    setMessage("Session skipped ⏭");
     setIsRunning(false);
     setIsPaused(false);
-    
+
     // Only add skipped session for Focus mode
     if (modeKey === "Focus") {
       const sessionStart = sessionStartTimeRef.current || new Date().toISOString();
@@ -276,17 +289,17 @@ function TimerPage({ tasks = [] }) {
         minutes: 0,
         taskId: selectedTaskId || null,
       });
-      console.log("⏭️ Skipped session added");
+      console.log("⏭ Skipped session added");
     }
-    
+
     // Reset session start time
     sessionStartTimeRef.current = null;
-    
+
     // Reset timer to current mode's duration
     const newSeconds = currentMode.duration * 60;
     secondsLeftRef.current = newSeconds;
     setDisplaySeconds(newSeconds);
-    
+
     // Switch mode after a brief delay so user sees the skip message
     setTimeout(() => {
       if (modeKey === "Focus") {
@@ -316,10 +329,16 @@ function TimerPage({ tasks = [] }) {
                 {isPaused ? "Resume" : "Start"}
               </button>
             ) : (
-              <button className={styles.btn} onClick={pause} type="button">Pause</button>
+              <button className={styles.btn} onClick={pause} type="button">
+                Pause
+              </button>
             )}
-            <button className={styles.btn} onClick={reset} type="button">Reset</button>
-            <button className={`${styles.btn} ${styles.ghost}`} onClick={skip} type="button">Skip</button>
+            <button className={styles.btn} onClick={reset} type="button">
+              Reset
+            </button>
+            <button className={`${styles.btn} ${styles.ghost}`} onClick={skip} type="button">
+              Skip
+            </button>
           </div>
 
           {message ? <div className={styles.success}>{message}</div> : null}
@@ -329,7 +348,7 @@ function TimerPage({ tasks = [] }) {
           <div className={styles.card}>
             <div className={styles.cardTitle}>Mode</div>
             <div className={styles.modeRow}>
-              {modeMinutes.map(modeMinute => (
+              {modeMinutes.map((modeMinute) => (
                 <button
                   key={modeMinute.key}
                   className={`${styles.btn} ${modeKey === modeMinute.key ? styles.primary : ""}`}
@@ -341,7 +360,10 @@ function TimerPage({ tasks = [] }) {
                 </button>
               ))}
             </div>
-            <div className={styles.muted}>Focus : {focusMinutes}m • Short Break : {shortBreakMinutes}m • Long Break : {longBreakMinutes}m</div>
+            <div className={styles.muted}>
+              Focus : {focusMinutes}m • Short Break : {shortBreakMinutes}m • Long Break :{" "}
+              {longBreakMinutes}m
+            </div>
           </div>
 
           <div className={styles.card}>
@@ -352,7 +374,7 @@ function TimerPage({ tasks = [] }) {
               onChange={(e) => setSelectedTaskId(e.target.value)}
             >
               <option value="">-- No task --</option>
-              {tasks.map(task => (
+              {tasks.map((task) => (
                 <option key={task.id} value={task.id}>
                   {task.title}
                 </option>
@@ -360,11 +382,10 @@ function TimerPage({ tasks = [] }) {
             </select>
             <p className={styles.muted}>Selecting a task will add it to your session</p>
           </div>
-
         </section>
       </div>
     </div>
   );
-};
+}
 
 export default TimerPage;

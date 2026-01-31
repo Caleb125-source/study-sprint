@@ -144,3 +144,17 @@
   background: #ffffff;
   font-weight: 600;
 }
+
+.notice {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.noticeSuccess {
+  color: #16a34a; /* green */
+}
+
+.noticeMuted {
+  color: #667085; /* same muted tone as your text */
+}

@@ -1,10 +1,102 @@
 {
   "settings": {
     "theme": "light",
-    "focusMinutes": 25,
-    "shortBreakMinutes": 5,
+    "focusMinutes": 1,
+    "shortBreakMinutes": 1,
     "longBreakMinutes": 15
   },
-  "tasks": [],
-  "sessions": []
+  "tasks": [
+    {
+      "id": "b817",
+      "title": "Math",
+      "subject": "Math",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T14:32:09.758Z",
+      "completedAt": "2026-01-31T08:21:46.983Z"
+    },
+    {
+      "id": "cc2f",
+      "title": "English",
+      "subject": "English",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T14:57:26.526Z",
+      "completedAt": "2026-01-31T08:22:38.459Z"
+    },
+    {
+      "id": "8b7d",
+      "title": "CRE",
+      "subject": "CRE",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T16:05:22.297Z",
+      "completedAt": "2026-01-30T16:05:44.618Z"
+    },
+    {
+      "id": "cfe0",
+      "title": "Chem",
+      "subject": "Chem",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T16:10:13.384Z",
+      "completedAt": "2026-01-30T16:10:34.386Z"
+    },
+    {
+      "id": "c244",
+      "title": "Geo",
+      "subject": "Geo",
+      "dueDate": "2026-01-30",
+      "priority": "High",
+      "status": "Done",
+      "createdAt": "2026-01-30T17:53:03.535Z",
+      "completedAt": "2026-01-30T17:54:40.964Z"
+    },
+    {
+      "id": "8b70",
+      "title": "Assignment",
+      "subject": "React",
+      "dueDate": "2026-01-31",
+      "priority": "Medium",
+      "status": "Done",
+      "createdAt": "2026-01-31T08:21:29.534Z",
+      "completedAt": "2026-01-31T08:21:50.133Z"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "4de5",
+      "date": "2026-01-30",
+      "time": "06:45 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": null,
+      "startedAt": "2026-01-30T15:45:46.416Z",
+      "createdAt": "2026-01-30T15:46:46.436Z"
+    },
+    {
+      "id": "345d",
+      "date": "2026-01-30",
+      "time": "06:57 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": null,
+      "startedAt": "2026-01-30T15:57:18.069Z",
+      "createdAt": "2026-01-30T15:58:18.154Z"
+    },
+    {
+      "id": "db9f",
+      "date": "2026-01-30",
+      "time": "07:10 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": null,
+      "startedAt": "2026-01-30T16:10:47.590Z",
+      "createdAt": "2026-01-30T16:11:47.795Z"
+    }
+  ]
 }

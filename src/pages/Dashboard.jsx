@@ -22,11 +22,20 @@ export default function Dashboard() {
 
   const todayYMD = useMemo(() => toYMD(new Date()), []);
 
+  // read current user id (set by AuthContext.persist)
+  const userId = localStorage.getItem("currentUserId");
+
   useEffect(() => {
-    // fetch tasks
+    // fetch tasks (USER-SCOPED)
     (async () => {
       try {
-        const res = await fetch(TASKS_API);
+        if (!userId) {
+          setTasks([]);
+          return;
+        }
+
+        // only fetch tasks for this user
+        const res = await fetch(`${TASKS_API}?userId=${encodeURIComponent(userId)}`);
         const data = await res.json();
         setTasks(Array.isArray(data) ? data : []);
       } catch (e) {
@@ -50,7 +59,7 @@ export default function Dashboard() {
         setSessionsLoading(false);
       }
     })();
-  }, []);
+  }, [userId]); // refetch when user changes
 
   // ------------- Daily Tasks (today's due date, not done) -------------
   const todaysTasks = useMemo(() => {
@@ -202,4 +211,3 @@ export default function Dashboard() {
     </div>
   );
 }
-

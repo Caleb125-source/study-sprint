@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import styles from "../styles/SignupPage.module.css";
 
 export default function SignupPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { signup } = useAuth();
+
+  
+  const redirectTo = location.state?.from || "/dashboard";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,13 +23,13 @@ export default function SignupPage() {
     e.preventDefault();
     setError("");
 
-    if (password.length < 4) return setError("Password must be at least 4 characters ");
-    if (password !== confirm) return setError("Passwords do not match ");
+    if (password.length < 4) return setError("Password must be at least 4 characters");
+    if (password !== confirm) return setError("Passwords do not match");
 
     setLoading(true);
     try {
       await signup({ name: name.trim(), email: email.trim(), password });
-      navigate("/dashboard", { replace: true });
+      navigate(redirectTo, { replace: true });
     } catch (err) {
       setError(err?.message || "Signup failed");
     } finally {
@@ -36,7 +40,7 @@ export default function SignupPage() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Create account </h1>
+        <h1 className={styles.title}>Create account</h1>
         <p className={styles.subtitle}>Join StudySprint and start planning 🚀</p>
 
         {error && (
@@ -98,12 +102,16 @@ export default function SignupPage() {
           </label>
 
           <div className={styles.actions}>
-            <button className={styles.buttonPrimary} disabled={loading} type="submit">
-              {loading ? "Creating... " : "Sign Up "}
+            <button
+              className={styles.buttonPrimary}
+              disabled={loading}
+              type="submit"
+            >
+              {loading ? "Creating..." : "Sign Up"}
             </button>
 
             <Link className={styles.buttonSecondary} to="/">
-              Back Home 
+              Back Home
             </Link>
           </div>
         </form>
@@ -111,7 +119,7 @@ export default function SignupPage() {
         <p className={styles.footerText}>
           Already have an account?{" "}
           <Link className={styles.link} to="/login">
-            Login 
+            Login
           </Link>
         </p>
       </div>

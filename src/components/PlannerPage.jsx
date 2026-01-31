@@ -1,26 +1,8 @@
 import React, { useMemo, useState, useEffect } from "react";
 import styles from "../styles/PlannerPage.module.css";
+import { useAuth } from "../auth/AuthContext";
 
 const API_URL = "http://localhost:3001/tasks";
-
-function getCurrentUserId() {
-  //  this is what AuthContext writes
-  const direct = localStorage.getItem("currentUserId");
-  if (direct) return String(direct);
-
-  //  fallback: read the saved user object your app uses
-  const raw = localStorage.getItem("studySprintUser");
-  if (raw) {
-    try {
-      const u = JSON.parse(raw);
-      if (u?.id) return String(u.id);
-    } catch {
-      // ignore
-    }
-  }
-
-  return null;
-}
 
 function TaskForm({ addTask, taskAdded }) {
   const [title, setTitle] = useState("");
@@ -256,6 +238,7 @@ function TaskItem({ task, updateTask, deleteTask }) {
                 <option value="">Select Status</option>
                 <option value="To-Do">To-Do</option>
                 <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
               </select>
             </label>
           </div>
@@ -328,17 +311,15 @@ function TaskList({ tasks, updateTask, deleteTask }) {
   );
 }
 
-// Main Planner Page Component
 function PlannerPage({ onTaskUpdate }) {
   const [tasks, setTasks] = useState([]);
   const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
   const [loading, setLoading] = useState(true);
-
   const [taskAdded, setTaskAdded] = useState(false);
 
-  const userId = getCurrentUserId(); // get logged-in user ID
+  const { user } = useAuth();
+  const userId = user?.id ? String(user.id) : null;
 
-  //  Fetch tasks whenever user changes (logout/login)
   useEffect(() => {
     fetchTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -349,7 +330,6 @@ function PlannerPage({ onTaskUpdate }) {
       setLoading(true);
 
       if (!userId) {
-        // No logged-in user -> show nothing (prevents seeing other people's tasks)
         setTasks([]);
         return;
       }
@@ -357,7 +337,6 @@ function PlannerPage({ onTaskUpdate }) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-      // only fetch this user's tasks
       const response = await fetch(`${API_URL}?userId=${encodeURIComponent(userId)}`, {
         signal: controller.signal,
       });
@@ -376,11 +355,11 @@ function PlannerPage({ onTaskUpdate }) {
 
   const addTask = async (task) => {
     try {
-      if (!userId) return; //  prevent saving without a user
+      if (!userId) return;
 
       const newTask = {
         ...task,
-        userId, // NEW: attach ownership
+        userId,
         createdAt: new Date().toISOString(),
       };
 

@@ -30,16 +30,23 @@ function App() {
   }, [theme]);
 
   const fetchTasks = useCallback(async () => {
-    try {
-      const response = await fetch("http://localhost:3001/tasks");
-      const data = await response.json();
-      setTasks(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
+  try {
+    const userId = localStorage.getItem("currentUserId");
+    if (!userId) {
       setTasks([]);
+      return;
     }
-  }, []);
 
+    const response = await fetch(
+      `http://localhost:3001/tasks?userId=${encodeURIComponent(userId)}`
+    );
+    const data = await response.json();
+    setTasks(Array.isArray(data) ? data : []);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    setTasks([]);
+  }
+}, []);
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);

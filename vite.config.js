@@ -10,6 +10,9 @@ export default defineConfig({
     include: [
       "src/tests/SettingsPage.test.jsx",
       "src/tests/ProgressPage.test.jsx",
+      "src/tests/LoginPage.test.jsx",
+      "src/tests/SignupPage.test.jsx",
+
     ],
   },
 });

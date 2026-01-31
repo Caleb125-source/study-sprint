@@ -191,6 +191,16 @@
       "status": "To-Do",
       "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
       "createdAt": "2026-01-31T18:03:52.965Z"
+    },
+    {
+      "id": "aa22",
+      "title": "Quiz",
+      "subject": "Science",
+      "dueDate": "2026-02-02",
+      "priority": "Medium",
+      "status": "To-Do",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T18:16:10.692Z"
     }
   ],
   "sessions": [
@@ -248,6 +258,61 @@
       "taskId": "edcd",
       "startedAt": "2026-01-31T17:43:38.037Z",
       "createdAt": "2026-01-31T17:44:38.168Z"
+    },
+    {
+      "id": "d6e3",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:16 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7d13",
+      "startedAt": "2026-01-31T18:16:48.054Z",
+      "createdAt": "2026-01-31T18:17:48.076Z"
+    },
+    {
+      "id": "56e0",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:18 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7d13",
+      "startedAt": "2026-01-31T18:18:24.596Z",
+      "createdAt": "2026-01-31T18:18:24.601Z"
+    },
+    {
+      "id": "1778",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:18 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7d13",
+      "startedAt": "2026-01-31T18:18:30.496Z",
+      "createdAt": "2026-01-31T18:18:30.498Z"
+    },
+    {
+      "id": "7897",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:18 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7d13",
+      "startedAt": "2026-01-31T18:18:33.718Z",
+      "createdAt": "2026-01-31T18:18:33.722Z"
+    },
+    {
+      "id": "9b65",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:18 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7557",
+      "startedAt": "2026-01-31T18:18:38.186Z",
+      "createdAt": "2026-01-31T18:19:38.431Z"
     }
   ]
 }

@@ -1,17 +1,24 @@
 import { Routes, Route } from "react-router-dom";
+import { useState, useCallback, useEffect } from "react";
+
 import Layout from "./components/Layout";
-import { useState, useCallback, useEffect } from "react"
 
 import LandingHomePage from "./pages/LandingHomePage";
 import FeaturesPage from "./pages/FeaturesPage";
 import About from "./pages/About";
+
 import Dashboard from "./pages/Dashboard";
 import PlannerPage from "./components/PlannerPage";
 import TimerPage from "./components/TimerPage";
 import ProgressPage from "./pages/ProgressPage";
 import SettingsPage from "./pages/SettingsPage";
 
+//  auth pages
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 
+//  route protection wrapper
+import ProtectedRoute from "./auth/ProtectedRoute";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -37,18 +44,63 @@ function App() {
     fetchTasks();
   }, [fetchTasks]);
 
-
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route element={<Layout theme={theme} setTheme={setTheme} />}>
+        {/*  public routes */}
         <Route path="/" element={<LandingHomePage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/planner" element={<PlannerPage onTaskUpdate={fetchTasks} />} />
-        <Route path="/timer" element={<TimerPage tasks={tasks} />} />
-        <Route path="/progress" element={<ProgressPage />} />
-        <Route path="/settings" element={<SettingsPage theme={theme} setTheme={setTheme} />} />
+
+        {/*  auth routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+
+        {/* protected routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/planner"
+          element={
+            <ProtectedRoute>
+              <PlannerPage onTaskUpdate={fetchTasks} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/timer"
+          element={
+            <ProtectedRoute>
+              <TimerPage tasks={tasks} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/progress"
+          element={
+            <ProtectedRoute>
+              <ProgressPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage theme={theme} setTheme={setTheme} />
+            </ProtectedRoute>
+          }
+        />
       </Route>
     </Routes>
   );

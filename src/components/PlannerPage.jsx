@@ -3,7 +3,6 @@ import styles from "../styles/PlannerPage.module.css";
 
 const API_URL = "http://localhost:3001/tasks";
 
-
 function getCurrentUserId() {
   //  this is what AuthContext writes
   const direct = localStorage.getItem("currentUserId");
@@ -22,7 +21,8 @@ function getCurrentUserId() {
 
   return null;
 }
-function TaskForm({ addTask }) {
+
+function TaskForm({ addTask, taskAdded }) {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -117,6 +117,8 @@ function TaskForm({ addTask }) {
       <button className={styles.btnPrimary} type="submit">
         Add
       </button>
+
+      {taskAdded ? <div className={styles.successMsg}>Task added</div> : null}
     </form>
   );
 }
@@ -332,6 +334,8 @@ function PlannerPage({ onTaskUpdate }) {
   const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
   const [loading, setLoading] = useState(true);
 
+  const [taskAdded, setTaskAdded] = useState(false);
+
   const userId = getCurrentUserId(); // get logged-in user ID
 
   //  Fetch tasks whenever user changes (logout/login)
@@ -388,6 +392,9 @@ function PlannerPage({ onTaskUpdate }) {
 
       const savedTask = await response.json();
       setTasks((prev) => [savedTask, ...prev]);
+
+      setTaskAdded(true);
+      setTimeout(() => setTaskAdded(false), 2500);
 
       if (onTaskUpdate) onTaskUpdate();
     } catch (error) {
@@ -456,7 +463,7 @@ function PlannerPage({ onTaskUpdate }) {
 
       <div className={styles.plannerGrid}>
         <div className={styles.leftCol}>
-          <TaskForm addTask={addTask} />
+          <TaskForm addTask={addTask} taskAdded={taskAdded} />
           <TaskFilters filters={filters} setFilters={setFilters} tasks={tasks} />
         </div>
 

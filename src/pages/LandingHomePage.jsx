@@ -15,6 +15,7 @@ function LandingHomePage() {
           <Link to="/dashboard" className={styles.buttonPrimary}>Open Dashboard</Link>
           <Link to="/features" className={styles.buttonSecondary}>See Features</Link>
           <Link to="/planner" className={styles.buttonSecondary}>Start Planning</Link>
+          <Link to="/dashboard" className={styles.buttonPrimary}>Open Dashboard</Link>
         </div>
       </div>
 

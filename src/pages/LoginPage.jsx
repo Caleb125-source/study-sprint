@@ -8,6 +8,7 @@ export default function LoginPage() {
   const location = useLocation();
   const { login } = useAuth();
 
+  // if user tries to visit /dashboard first, they get sent back there after login
   const redirectTo = location.state?.from || "/dashboard";
 
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ export default function LoginPage() {
       await login({ email: email.trim(), password });
       navigate(redirectTo, { replace: true });
     } catch (err) {
-      setError(err?.message || "Login failed ");
+      setError(err?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -34,8 +35,8 @@ export default function LoginPage() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Welcome back </h1>
-        <p className={styles.subtitle}>Login to continue using StudySprint </p>
+        <h1 className={styles.title}>Welcome back</h1>
+        <p className={styles.subtitle}>Login to continue using StudySprint</p>
 
         {error && (
           <div className={styles.error} role="alert">
@@ -71,12 +72,16 @@ export default function LoginPage() {
           </label>
 
           <div className={styles.actions}>
-            <button className={styles.buttonPrimary} disabled={loading} type="submit">
-              {loading ? "Logging in... " : "Login "}
+            <button
+              className={styles.buttonPrimary}
+              disabled={loading}
+              type="submit"
+            >
+              {loading ? "Logging in..." : "Login"}
             </button>
 
             <Link className={styles.buttonSecondary} to="/">
-              Back Home 
+              Back Home
             </Link>
           </div>
         </form>

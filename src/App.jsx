@@ -17,14 +17,14 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 
 import ProtectedRoute from "./auth/ProtectedRoute";
-import { useAuth } from "./auth/AuthContext"; 
+import { useAuth } from "./auth/AuthContext";
 
 function App() {
   const [theme, setTheme] = useState("light");
   const [tasks, setTasks] = useState([]);
 
-  const { user } = useAuth(); // auth user
-  const userId = user?.id || null;
+  const { user } = useAuth();
+  const userId = user?.id ? String(user.id) : null;
 
   useEffect(() => {
     document.body.classList.remove("light", "dark");
@@ -49,7 +49,6 @@ function App() {
     }
   }, [userId]);
 
-  //  refreshes whenever user logs in/out
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
@@ -57,21 +56,18 @@ function App() {
   return (
     <Routes>
       <Route element={<Layout theme={theme} setTheme={setTheme} />}>
-        {/* public routes */}
         <Route path="/" element={<LandingHomePage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/about" element={<About />} />
 
-        {/* auth routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 
-        {/* protected routes */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard tasks={tasks} /> {/* pass tasks */}
+              <Dashboard tasks={tasks} />
             </ProtectedRoute>
           }
         />

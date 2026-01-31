@@ -1,13 +1,40 @@
 {
   "settings": {
     "theme": "light",
-    "focusMinutes": 1,
-    "shortBreakMinutes": 1,
-    "longBreakMinutes": 15
+    "focusMinutes": 25,
+    "shortBreakMinutes": 5,
+    "longBreakMinutes": 10
   },
+  "users": [
+    {
+      "id": "u1",
+      "name": "Test User",
+      "email": "test@example.com",
+      "password": "1234"
+    },
+    {
+      "id": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
+      "name": "JB",
+      "email": "joyburgei4@gmail.com",
+      "password": "12345"
+    },
+    {
+      "id": "72480938-d62c-488b-b2f1-b0442a25de85",
+      "name": "John Smith",
+      "email": "Johnsmith@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "a2ff2acc-33f8-421f-ae6a-6713c8a18781",
+      "name": "Shanice",
+      "email": "Shanice@gmail.com",
+      "password": "12345678"
+    }
+  ],
   "tasks": [
     {
       "id": "b817",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "Math",
       "subject": "Math",
       "dueDate": "2026-01-30",
@@ -18,6 +45,7 @@
     },
     {
       "id": "cc2f",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "English",
       "subject": "English",
       "dueDate": "2026-01-30",
@@ -28,6 +56,7 @@
     },
     {
       "id": "8b7d",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "CRE",
       "subject": "CRE",
       "dueDate": "2026-01-30",
@@ -38,6 +67,7 @@
     },
     {
       "id": "cfe0",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "Chem",
       "subject": "Chem",
       "dueDate": "2026-01-30",
@@ -48,6 +78,7 @@
     },
     {
       "id": "c244",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "Geo",
       "subject": "Geo",
       "dueDate": "2026-01-30",
@@ -58,6 +89,7 @@
     },
     {
       "id": "8b70",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "Assignment",
       "subject": "React",
       "dueDate": "2026-01-31",
@@ -65,38 +97,37 @@
       "status": "Done",
       "createdAt": "2026-01-31T08:21:29.534Z",
       "completedAt": "2026-01-31T08:21:50.133Z"
-    }
-  ],
-  "sessions": [
-    {
-      "id": "4de5",
-      "date": "2026-01-30",
-      "time": "06:45 PM",
-      "label": "Focus Session",
-      "minutes": 1,
-      "taskId": null,
-      "startedAt": "2026-01-30T15:45:46.416Z",
-      "createdAt": "2026-01-30T15:46:46.436Z"
     },
     {
-      "id": "345d",
-      "date": "2026-01-30",
-      "time": "06:57 PM",
-      "label": "Focus Session",
-      "minutes": 1,
-      "taskId": null,
-      "startedAt": "2026-01-30T15:57:18.069Z",
-      "createdAt": "2026-01-30T15:58:18.154Z"
+      "id": "d556",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
+      "title": "Assignment",
+      "subject": "HTML",
+      "dueDate": "2026-02-01",
+      "priority": "Medium",
+      "status": "To-Do",
+      "createdAt": "2026-01-31T10:47:49.370Z"
     },
     {
-      "id": "db9f",
-      "date": "2026-01-30",
-      "time": "07:10 PM",
-      "label": "Focus Session",
-      "minutes": 1,
-      "taskId": null,
-      "startedAt": "2026-01-30T16:10:47.590Z",
-      "createdAt": "2026-01-30T16:11:47.795Z"
+      "id": "28a4",
+      "title": "Assignment",
+      "subject": "React",
+      "dueDate": "2026-02-02",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "a2ff2acc-33f8-421f-ae6a-6713c8a18781",
+      "createdAt": "2026-01-31T11:44:10.929Z",
+      "completedAt": "2026-01-31T11:44:15.339Z"
+    },
+    {
+      "id": "ec60",
+      "title": "Homework",
+      "subject": "Math",
+      "dueDate": "2026-01-31",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "a2ff2acc-33f8-421f-ae6a-6713c8a18781",
+      "createdAt": "2026-01-31T11:45:56.981Z"
     }
   ]
 }

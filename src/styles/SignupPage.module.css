@@ -1,0 +1,124 @@
+.page {
+  max-width: 1140px;
+  margin: 60px auto 22px;
+  padding: 0 14px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 52px 48px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 14px;
+  font-size: 44px;
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0b1220;
+}
+
+.subtitle {
+  margin: 0 auto 26px;
+  max-width: 620px;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #64748b;
+}
+
+.error {
+  margin: 0 auto 18px;
+  max-width: 520px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 14px;
+  text-align: left;
+}
+
+.form {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.label {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.input {
+  padding: 12px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #e5e7eb;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #2563eb;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.buttonPrimary,
+.buttonSecondary {
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1.5px solid #e5e7eb;
+  background: white;
+  color: #111827;
+  cursor: pointer;
+}
+
+.buttonPrimary:hover,
+.buttonSecondary:hover {
+  background-color: #2563eb;
+  color: white;
+}
+
+.footerText {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.link {
+  font-weight: 700;
+  color: #111827;
+  text-decoration: underline;
+}
+
+@media (max-width: 980px) {
+  .page {
+    margin: 18px auto;
+  }
+
+  .card {
+    padding: 40px 22px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+}

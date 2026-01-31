@@ -13,16 +13,18 @@ import TimerPage from "./components/TimerPage";
 import ProgressPage from "./pages/ProgressPage";
 import SettingsPage from "./pages/SettingsPage";
 
-//  auth pages
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 
-//  route protection wrapper
 import ProtectedRoute from "./auth/ProtectedRoute";
+import { useAuth } from "./auth/AuthContext"; 
 
 function App() {
   const [theme, setTheme] = useState("light");
   const [tasks, setTasks] = useState([]);
+
+  const { user } = useAuth(); // auth user
+  const userId = user?.id || null;
 
   useEffect(() => {
     document.body.classList.remove("light", "dark");
@@ -30,23 +32,24 @@ function App() {
   }, [theme]);
 
   const fetchTasks = useCallback(async () => {
-  try {
-    const userId = localStorage.getItem("currentUserId");
-    if (!userId) {
-      setTasks([]);
-      return;
-    }
+    try {
+      if (!userId) {
+        setTasks([]);
+        return;
+      }
 
-    const response = await fetch(
-      `http://localhost:3001/tasks?userId=${encodeURIComponent(userId)}`
-    );
-    const data = await response.json();
-    setTasks(Array.isArray(data) ? data : []);
-  } catch (error) {
-    console.error("Error fetching tasks:", error);
-    setTasks([]);
-  }
-}, []);
+      const response = await fetch(
+        `http://localhost:3001/tasks?userId=${encodeURIComponent(userId)}`
+      );
+      const data = await response.json();
+      setTasks(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      setTasks([]);
+    }
+  }, [userId]);
+
+  //  refreshes whenever user logs in/out
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
@@ -54,12 +57,12 @@ function App() {
   return (
     <Routes>
       <Route element={<Layout theme={theme} setTheme={setTheme} />}>
-        {/*  public routes */}
+        {/* public routes */}
         <Route path="/" element={<LandingHomePage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/about" element={<About />} />
 
-        {/*  auth routes */}
+        {/* auth routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 
@@ -68,7 +71,7 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <Dashboard tasks={tasks} /> {/* pass tasks */}
             </ProtectedRoute>
           }
         />

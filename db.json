@@ -2,12 +2,69 @@
   "settings": {
     "theme": "light",
     "focusMinutes": 1,
-    "shortBreakMinutes": 1,
-    "longBreakMinutes": 15
+    "shortBreakMinutes": 5,
+    "longBreakMinutes": 10
   },
+  "users": [
+    {
+      "id": "u1",
+      "name": "Test User",
+      "email": "test@example.com",
+      "password": "1234"
+    },
+    {
+      "id": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
+      "name": "JB",
+      "email": "joyburgei4@gmail.com",
+      "password": "12345"
+    },
+    {
+      "id": "72480938-d62c-488b-b2f1-b0442a25de85",
+      "name": "John Smith",
+      "email": "Johnsmith@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "a2ff2acc-33f8-421f-ae6a-6713c8a18781",
+      "name": "Shanice",
+      "email": "Shanice@gmail.com",
+      "password": "12345678"
+    },
+    {
+      "id": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "name": "Samson",
+      "email": "Samson@gmail.com",
+      "password": "12345"
+    },
+    {
+      "id": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "name": "Caleb",
+      "email": "Caleb@gmail.com",
+      "password": "12345"
+    },
+    {
+      "id": "9393d8ed-8dbc-46ca-8eaa-c73202ecf3a0",
+      "name": "Joy",
+      "email": "JoyB@gmail.com",
+      "password": "12345"
+    },
+    {
+      "id": "ca4a9e87-8cf7-479a-8eb8-79d2b721f88c",
+      "name": "Mark",
+      "email": "Mark@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "de25eea4-88e3-4f3f-b421-ee6397b41def",
+      "name": "John",
+      "email": "John@gmail.com",
+      "password": "1234567"
+    }
+  ],
   "tasks": [
     {
       "id": "b817",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "Math",
       "subject": "Math",
       "dueDate": "2026-01-30",
@@ -18,6 +75,7 @@
     },
     {
       "id": "cc2f",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "English",
       "subject": "English",
       "dueDate": "2026-01-30",
@@ -28,6 +86,7 @@
     },
     {
       "id": "8b7d",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "CRE",
       "subject": "CRE",
       "dueDate": "2026-01-30",
@@ -38,6 +97,7 @@
     },
     {
       "id": "cfe0",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "Chem",
       "subject": "Chem",
       "dueDate": "2026-01-30",
@@ -48,6 +108,7 @@
     },
     {
       "id": "c244",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "Geo",
       "subject": "Geo",
       "dueDate": "2026-01-30",
@@ -58,6 +119,7 @@
     },
     {
       "id": "8b70",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
       "title": "Assignment",
       "subject": "React",
       "dueDate": "2026-01-31",
@@ -65,38 +127,383 @@
       "status": "Done",
       "createdAt": "2026-01-31T08:21:29.534Z",
       "completedAt": "2026-01-31T08:21:50.133Z"
+    },
+    {
+      "id": "d556",
+      "userId": "53e4d75c-cb7b-4f9f-8c4a-f9ec0a8ca2af",
+      "title": "Assignment",
+      "subject": "HTML",
+      "dueDate": "2026-02-01",
+      "priority": "Medium",
+      "status": "To-Do",
+      "createdAt": "2026-01-31T10:47:49.370Z"
+    },
+    {
+      "id": "28a4",
+      "title": "Assignment",
+      "subject": "React",
+      "dueDate": "2026-02-02",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "a2ff2acc-33f8-421f-ae6a-6713c8a18781",
+      "createdAt": "2026-01-31T11:44:10.929Z",
+      "completedAt": "2026-01-31T11:44:15.339Z"
+    },
+    {
+      "id": "ec60",
+      "title": "Homework",
+      "subject": "Math",
+      "dueDate": "2026-01-31",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "a2ff2acc-33f8-421f-ae6a-6713c8a18781",
+      "createdAt": "2026-01-31T11:45:56.981Z"
+    },
+    {
+      "id": "48b1",
+      "title": "Assignment",
+      "subject": "math",
+      "dueDate": "2026-02-01",
+      "priority": "Medium",
+      "status": "Done",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "createdAt": "2026-01-31T12:04:30.639Z",
+      "completedAt": "2026-01-31T21:44:45.133Z"
+    },
+    {
+      "id": "edcd",
+      "title": "Assignment",
+      "subject": "React",
+      "dueDate": "2026-01-31",
+      "priority": "Medium",
+      "status": "Done",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T15:33:58.695Z",
+      "completedAt": "2026-01-31T21:26:05.476Z"
+    },
+    {
+      "id": "67ee",
+      "title": "Homework",
+      "subject": "Math",
+      "dueDate": "2026-01-31",
+      "priority": "High",
+      "status": "Done",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T15:44:23.374Z",
+      "completedAt": "2026-01-31T21:04:04.224Z"
+    },
+    {
+      "id": "7d13",
+      "title": "Reading",
+      "subject": "Article",
+      "dueDate": "2026-02-02",
+      "priority": "Low",
+      "status": "Done",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T17:45:30.370Z",
+      "completedAt": "2026-01-31T21:26:07.595Z"
+    },
+    {
+      "id": "7557",
+      "title": "Writing",
+      "subject": "Essay",
+      "dueDate": "2026-02-01",
+      "priority": "Medium",
+      "status": "To-Do",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T18:03:52.965Z"
+    },
+    {
+      "id": "aa22",
+      "title": "Quiz",
+      "subject": "Science",
+      "dueDate": "2026-02-02",
+      "priority": "Medium",
+      "status": "To-Do",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T18:16:10.692Z"
+    },
+    {
+      "id": "13f6",
+      "title": "homework",
+      "subject": "eng",
+      "dueDate": "2026-02-02",
+      "priority": "Medium",
+      "status": "In Progress",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T21:02:08.293Z"
+    },
+    {
+      "id": "3073",
+      "title": "homework",
+      "subject": "phy",
+      "dueDate": "2026-02-01",
+      "priority": "Medium",
+      "status": "Done",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T21:04:42.392Z",
+      "completedAt": "2026-01-31T21:05:30.099Z"
+    },
+    {
+      "id": "c3de",
+      "title": "Homework",
+      "subject": "Bio",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T21:10:25.163Z"
+    },
+    {
+      "id": "419c",
+      "title": "homework",
+      "subject": "history",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "createdAt": "2026-01-31T21:26:36.045Z"
+    },
+    {
+      "id": "205a",
+      "title": "Homework",
+      "subject": "chem",
+      "dueDate": "2026-02-02",
+      "priority": "Medium",
+      "status": "To-Do",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "createdAt": "2026-01-31T21:45:15.000Z"
+    },
+    {
+      "id": "04c8",
+      "title": "Group work",
+      "subject": "React",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "createdAt": "2026-02-01T03:57:00.240Z"
+    },
+    {
+      "id": "02bf",
+      "title": "Quiz",
+      "subject": "React",
+      "dueDate": "2026-02-02",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "createdAt": "2026-02-01T03:59:38.505Z"
+    },
+    {
+      "id": "6299",
+      "title": "Homework",
+      "subject": "Science",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "Done",
+      "userId": "ca4a9e87-8cf7-479a-8eb8-79d2b721f88c",
+      "createdAt": "2026-02-01T12:02:20.235Z",
+      "completedAt": "2026-02-01T12:03:33.826Z"
+    },
+    {
+      "id": "70b4",
+      "title": "homework",
+      "subject": "science",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "Done",
+      "userId": "de25eea4-88e3-4f3f-b421-ee6397b41def",
+      "createdAt": "2026-02-01T13:46:41.077Z",
+      "completedAt": "2026-02-01T13:46:51.117Z"
     }
   ],
   "sessions": [
     {
-      "id": "4de5",
-      "date": "2026-01-30",
-      "time": "06:45 PM",
+      "id": "76c9",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "08:15 PM",
       "label": "Focus Session",
       "minutes": 1,
-      "taskId": null,
-      "startedAt": "2026-01-30T15:45:46.416Z",
-      "createdAt": "2026-01-30T15:46:46.436Z"
+      "taskId": "67ee",
+      "startedAt": "2026-01-31T17:15:32.769Z",
+      "createdAt": "2026-01-31T17:16:32.787Z"
     },
     {
-      "id": "345d",
-      "date": "2026-01-30",
-      "time": "06:57 PM",
+      "id": "0cfa",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "08:21 PM",
       "label": "Focus Session",
       "minutes": 1,
-      "taskId": null,
-      "startedAt": "2026-01-30T15:57:18.069Z",
-      "createdAt": "2026-01-30T15:58:18.154Z"
+      "taskId": "edcd",
+      "startedAt": "2026-01-31T17:21:50.466Z",
+      "createdAt": "2026-01-31T17:22:50.486Z"
     },
     {
-      "id": "db9f",
-      "date": "2026-01-30",
-      "time": "07:10 PM",
+      "id": "9a8a",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "08:23 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "edcd",
+      "startedAt": "2026-01-31T17:23:03.710Z",
+      "createdAt": "2026-01-31T17:24:03.731Z"
+    },
+    {
+      "id": "9549",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "08:36 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "edcd",
+      "startedAt": "2026-01-31T17:36:08.167Z",
+      "createdAt": "2026-01-31T17:37:08.199Z"
+    },
+    {
+      "id": "8937",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "08:43 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "edcd",
+      "startedAt": "2026-01-31T17:43:38.037Z",
+      "createdAt": "2026-01-31T17:44:38.168Z"
+    },
+    {
+      "id": "d6e3",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:16 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7d13",
+      "startedAt": "2026-01-31T18:16:48.054Z",
+      "createdAt": "2026-01-31T18:17:48.076Z"
+    },
+    {
+      "id": "56e0",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:18 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7d13",
+      "startedAt": "2026-01-31T18:18:24.596Z",
+      "createdAt": "2026-01-31T18:18:24.601Z"
+    },
+    {
+      "id": "1778",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:18 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7d13",
+      "startedAt": "2026-01-31T18:18:30.496Z",
+      "createdAt": "2026-01-31T18:18:30.498Z"
+    },
+    {
+      "id": "7897",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:18 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7d13",
+      "startedAt": "2026-01-31T18:18:33.718Z",
+      "createdAt": "2026-01-31T18:18:33.722Z"
+    },
+    {
+      "id": "9b65",
+      "userId": "aeec5820-aa3f-44d3-881d-25d1ad448d5f",
+      "date": "2026-01-31",
+      "time": "09:18 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "7557",
+      "startedAt": "2026-01-31T18:18:38.186Z",
+      "createdAt": "2026-01-31T18:19:38.431Z"
+    },
+    {
+      "id": "f818",
+      "userId": "9393d8ed-8dbc-46ca-8eaa-c73202ecf3a0",
+      "date": "2026-02-01",
+      "time": "12:02 AM",
       "label": "Focus Session",
       "minutes": 1,
       "taskId": null,
-      "startedAt": "2026-01-30T16:10:47.590Z",
-      "createdAt": "2026-01-30T16:11:47.795Z"
+      "startedAt": "2026-01-31T21:02:27.494Z",
+      "createdAt": "2026-01-31T21:03:27.503Z"
+    },
+    {
+      "id": "29fc",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "date": "2026-02-01",
+      "time": "12:43 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "48b1",
+      "startedAt": "2026-01-31T21:43:35.859Z",
+      "createdAt": "2026-01-31T21:44:35.872Z"
+    },
+    {
+      "id": "d4ac",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "date": "2026-02-01",
+      "time": "12:45 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "205a",
+      "startedAt": "2026-01-31T21:45:26.332Z",
+      "createdAt": "2026-01-31T21:46:26.419Z"
+    },
+    {
+      "id": "b785",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "date": "2026-02-01",
+      "time": "06:57 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "04c8",
+      "startedAt": "2026-02-01T03:57:09.546Z",
+      "createdAt": "2026-02-01T03:58:09.773Z"
+    },
+    {
+      "id": "ba68",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "date": "2026-02-01",
+      "time": "06:59 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "02bf",
+      "startedAt": "2026-02-01T03:59:44.415Z",
+      "createdAt": "2026-02-01T04:00:44.552Z"
+    },
+    {
+      "id": "bbae",
+      "userId": "ca4a9e87-8cf7-479a-8eb8-79d2b721f88c",
+      "date": "2026-02-01",
+      "time": "03:02 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "6299",
+      "startedAt": "2026-02-01T12:02:27.395Z",
+      "createdAt": "2026-02-01T12:03:27.647Z"
+    },
+    {
+      "id": "5eca",
+      "userId": "de25eea4-88e3-4f3f-b421-ee6397b41def",
+      "date": "2026-02-01",
+      "time": "04:47 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "70b4",
+      "startedAt": "2026-02-01T13:47:10.096Z",
+      "createdAt": "2026-02-01T13:48:10.111Z"
     }
   ]
 }

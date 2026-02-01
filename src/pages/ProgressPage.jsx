@@ -3,7 +3,20 @@ import styles from "../styles/ProgressPage.module.css";
 import { useSessions } from "../context/SessionsContext.jsx";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const iso = (d) => d.toISOString().slice(0, 10);
+
+// ✅ LOCAL yyyy-mm-dd (NOT UTC)
+const ymdLocal = (date) => {
+  const d = new Date(date);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+    d.getDate()
+  ).padStart(2, "0")}`;
+};
+
+// ✅ Parse "YYYY-MM-DD" as LOCAL date (not UTC)
+const parseYMDLocal = (ymd) => {
+  const [y, m, d] = (ymd || "").split("-").map(Number);
+  return new Date(y, (m || 1) - 1, d || 1);
+};
 
 function getMonday(today = new Date()) {
   const d = new Date(today);
@@ -15,8 +28,7 @@ function getMonday(today = new Date()) {
 
 export default function ProgressPage() {
   const { sessions } = useSessions();
-  
-  // Recalculate monday/sunday each render to ensure accuracy
+
   const monday = useMemo(() => getMonday(), []);
   const sunday = useMemo(() => {
     const d = new Date(monday);
@@ -25,29 +37,31 @@ export default function ProgressPage() {
     return d;
   }, [monday]);
 
-  // Calculate stats - ONLY count completed sessions (minutes > 0)
+  // Compute stats for the current week
   const stats = useMemo(() => {
-    // Filter sessions for this week AND only completed ones
-    const weekSessions = sessions.filter((s) => {
-      if (s.minutes === 0) return false; // Skip skipped sessions
-      const sessionDate = new Date(s.date);
+    const weekSessions = (sessions ?? []).filter((s) => {
+      if (s.minutes === 0) return false;
+
+      //  Check if session date is within this week
+      const sessionDate = parseYMDLocal(s.date);
+      sessionDate.setHours(12, 0, 0, 0); 
+
       return sessionDate >= monday && sessionDate <= sunday;
     });
 
-    const totalMinutes = weekSessions.reduce((sum, s) => sum + s.minutes, 0);
+    const totalMinutes = weekSessions.reduce((sum, s) => sum + (Number(s.minutes) || 0), 0);
 
-    // Calculate streak - only count days with completed sessions
     const uniqueDays = new Set(
-      sessions
-        .filter(s => s.minutes > 0)
-        .map((s) => s.date)
+      (sessions ?? [])
+        .filter((s) => (Number(s.minutes) || 0) > 0)
+        .map((s) => s.date) // already yyyy-mm-dd
     );
-    let streak = 0;
 
+    let streak = 0;
     for (let i = 0; i < 365; i++) {
       const d = new Date();
       d.setDate(d.getDate() - i);
-      if (uniqueDays.has(iso(d))) {
+      if (uniqueDays.has(ymdLocal(d))) {
         streak++;
       } else {
         break;
@@ -61,34 +75,36 @@ export default function ProgressPage() {
     };
   }, [sessions, monday, sunday]);
 
-  // Calculate weekly breakdown - ONLY completed sessions
+  //  Weekly breakdown 
   const breakdown = useMemo(() => {
     return DAYS.map((name, i) => {
       const d = new Date(monday);
       d.setDate(monday.getDate() + i);
-      const key = iso(d);
 
-      // Only count completed sessions (minutes > 0)
-      const mins = sessions
-        .filter((s) => s.date === key && s.minutes > 0)
-        .reduce((sum, s) => sum + s.minutes, 0);
+      // local key 
+      const key = ymdLocal(d);
+
+      const mins = (sessions ?? [])
+        .filter((s) => s.date === key && (Number(s.minutes) || 0) > 0)
+        .reduce((sum, s) => sum + (Number(s.minutes) || 0), 0);
 
       return { name, minutes: mins };
     });
   }, [sessions, monday]);
 
-  // Get recent sessions - show all including skipped
   const recent = useMemo(() => {
-    return [...sessions]
+    return [...(sessions ?? [])]
       .sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt))
       .slice(0, 3);
   }, [sessions]);
 
-  // Check if there are any completed sessions this week
   const thisWeekHasSessions = useMemo(() => {
-    return sessions.some((s) => {
-      if (s.minutes === 0) return false; // Don't count skipped sessions
-      const sessionDate = new Date(s.date);
+    return (sessions ?? []).some((s) => {
+      if (s.minutes === 0) return false;
+
+      const sessionDate = parseYMDLocal(s.date);
+      sessionDate.setHours(12, 0, 0, 0);
+
       return sessionDate >= monday && sessionDate <= sunday;
     });
   }, [sessions, monday, sunday]);
@@ -137,9 +153,7 @@ export default function ProgressPage() {
           <h2 className={styles.cardTitle}>Recent Sessions</h2>
 
           {recent.length === 0 ? (
-            <p className={styles.cardText}>
-              Start a focus session in Timer to see it here.
-            </p>
+            <p className={styles.cardText}>Start a focus session in Timer to see it here.</p>
           ) : (
             <div className={styles.sessionList}>
               {recent.map((s) => (

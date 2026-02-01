@@ -1,58 +1,23 @@
 import "../styles/dashboard.css";
 import { Link } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
-
-const TASKS_API = "http://localhost:3001/tasks";
-const SESSIONS_API = "http://localhost:3001/sessions";
+import { useMemo } from "react";
+import { useSessions } from "../context/SessionsContext.jsx";
+import { useAuth } from "../auth/AuthContext.jsx";
 
 function toYMD(date) {
-  // local YYYY-MM-DD (avoids timezone surprises)
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
 
-export default function Dashboard() {
-  const [tasks, setTasks] = useState([]);
-  const [sessions, setSessions] = useState([]);
+export default function Dashboard({ tasks = [] }) {
+  const { user } = useAuth();
+  const userId = user?.id || null;
 
-  const [tasksLoading, setTasksLoading] = useState(true);
-  const [sessionsLoading, setSessionsLoading] = useState(true);
-
+  const { sessions } = useSessions();
   const todayYMD = useMemo(() => toYMD(new Date()), []);
 
-  useEffect(() => {
-    // fetch tasks
-    (async () => {
-      try {
-        const res = await fetch(TASKS_API);
-        const data = await res.json();
-        setTasks(Array.isArray(data) ? data : []);
-      } catch (e) {
-        console.error("Failed to load tasks:", e);
-        setTasks([]);
-      } finally {
-        setTasksLoading(false);
-      }
-    })();
-
-    // fetch focus sessions (today)
-    (async () => {
-      try {
-        const res = await fetch(SESSIONS_API);
-        const data = await res.json();
-        setSessions(Array.isArray(data) ? data : []);
-      } catch (e) {
-        console.warn("Failed to load sessions (is /sessions implemented?):", e);
-        setSessions([]);
-      } finally {
-        setSessionsLoading(false);
-      }
-    })();
-  }, []);
-
-  // ------------- Daily Tasks (today's due date, not done) -------------
   const todaysTasks = useMemo(() => {
     return (tasks ?? [])
       .filter((t) => t?.dueDate === todayYMD && t?.status !== "Done")
@@ -63,18 +28,22 @@ export default function Dashboard() {
       .slice(0, 6);
   }, [tasks, todayYMD]);
 
-  // ------------- Focus sessions today -------------
   const focusSessionsToday = useMemo(() => {
     return (sessions ?? []).filter((s) => {
+      if (!userId) return false;
+      if (s?.userId !== userId) return false;
+      if (s?.label !== "Focus Session") return false;
+
       const raw = s?.startedAt || s?.createdAt || s?.date;
       if (!raw) return false;
+
       const d = new Date(raw);
       if (Number.isNaN(d.getTime())) return false;
+
       return toYMD(d) === todayYMD;
     }).length;
-  }, [sessions, todayYMD]);
+  }, [sessions, todayYMD, userId]);
 
-  // ------------- Tasks completed today -------------
   const tasksCompletedToday = useMemo(() => {
     return (tasks ?? []).filter((t) => {
       if (t?.completedAt) {
@@ -85,7 +54,6 @@ export default function Dashboard() {
     }).length;
   }, [tasks, todayYMD]);
 
-  // ------------- Tasks completed each day (last 7 days) -------------
   const completedByDayLast7 = useMemo(() => {
     const days = [];
     for (let i = 6; i >= 0; i--) {
@@ -110,21 +78,18 @@ export default function Dashboard() {
     return days.map((d) => ({ day: d, count: counts[d] }));
   }, [tasks]);
 
-  const loading = tasksLoading || sessionsLoading;
-
   return (
     <div className="page">
       <h1>Dashboard</h1>
       <p className="subtitle">A quick overview of what to do next.</p>
 
       <div className="dashboard-grid">
+        {/* LEFT: Today's tasks */}
         <div className="card tasks-card">
           <h3>Today's Tasks</h3>
 
-          {loading ? (
-            <p>Loading...</p>
-          ) : todaysTasks.length === 0 ? (
-            <p>No upcoming tasks. Add one in Planner.</p>
+          {todaysTasks.length === 0 ? (
+            <p className="muted">No upcoming tasks. Add one in Planner</p>
           ) : (
             <ul className="taskList">
               {todaysTasks.map((t) => (
@@ -152,40 +117,37 @@ export default function Dashboard() {
           </Link>
         </div>
 
+        {/* RIGHT: Stats + 7 day summary */}
         <div>
           <div className="stats-grid">
             <div className="card stat-card span-2">
               <p>Focus sessions (today)</p>
-              <h2>{loading ? "…" : focusSessionsToday}</h2>
+              <h2>{focusSessionsToday}</h2>
             </div>
 
             <div className="card stat-card span-2">
               <p>Tasks completed today</p>
-              <h2>{loading ? "…" : tasksCompletedToday}</h2>
+              <h2>{tasksCompletedToday}</h2>
             </div>
           </div>
 
           <div className="card quick-card">
             <h3>Tasks completed each day (last 7 days)</h3>
 
-            {loading ? (
-              <p>Loading...</p>
-            ) : (
-              <div className="sevenDayWrap">
-                {completedByDayLast7.every((x) => x.count === 0) ? (
-                  <p className="muted">No completed tasks recorded yet.</p>
-                ) : (
-                  <ul className="dayList">
-                    {completedByDayLast7.map((row) => (
-                      <li key={row.day} className="dayItem">
-                        <span className="dayLabel">{row.day}</span>
-                        <span className="dayCount">{row.count}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )}
+            <div className="sevenDayWrap">
+              {completedByDayLast7.every((x) => x.count === 0) ? (
+                <p className="muted">No completed tasks recorded yet.</p>
+              ) : (
+                <ul className="dayList">
+                  {completedByDayLast7.map((row) => (
+                    <li key={row.day} className="dayItem">
+                      <span className="dayLabel">{row.day}</span>
+                      <span className="dayCount">{row.count}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             <div className="quick-actions">
               <Link to="/timer" className="btn-primary">
@@ -202,4 +164,3 @@ export default function Dashboard() {
     </div>
   );
 }
-

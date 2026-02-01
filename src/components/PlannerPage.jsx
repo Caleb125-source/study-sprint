@@ -1,139 +1,166 @@
 import React, { useMemo, useState, useEffect } from "react";
-import styles from '../styles/PlannerPage.module.css';
+import styles from "../styles/PlannerPage.module.css";
+import { useAuth } from "../auth/AuthContext";
 
 const API_URL = "http://localhost:3001/tasks";
 
-function TaskForm({ addTask }) {
-    const [title, setTitle] = useState("");
-    const [subject, setSubject] = useState("");
-    const [dueDate, setDueDate] = useState("");
-    const [priority, setPriority] = useState("");
-    const [status, setStatus] = useState("");
+function TaskForm({ addTask, taskAdded }) {
+  const [title, setTitle] = useState("");
+  const [subject, setSubject] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("");
+  const [status, setStatus] = useState("");
 
-    const handleSubmit = async (e) => {
-        console.log("Submitting form");
-        e.preventDefault();
-        if (title.trim() === "") return;
+  const handleSubmit = async (e) => {
+    console.log("Submitting form");
+    e.preventDefault();
+    if (title.trim() === "") return;
 
-        await addTask({ title: title.trim(), subject, dueDate, priority, status });
+    await addTask({ title: title.trim(), subject, dueDate, priority, status });
 
-        // Reset form fields after submission
-        setTitle("");
-        setSubject("");
-        setDueDate("");
-        setPriority("");
-        setStatus("");
-    };
-    
-    return (
-        <form onSubmit={handleSubmit} className={styles.card}>
-            <h2 className={styles.cardTitle}>Add Task</h2>
+    setTitle("");
+    setSubject("");
+    setDueDate("");
+    setPriority("");
+    setStatus("");
+  };
 
-            <label className={styles.field}>
-                <span className={styles.label}>Title</span>
-                <input
-                    className={styles.input}
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="e.g., Finish homework"
-                    required
-                />
-            </label>
+  return (
+    <form onSubmit={handleSubmit} className={styles.card}>
+      <h2 className={styles.cardTitle}>Add Task</h2>
 
-            <label className={styles.field}>
-                <span className={styles.label}>Subject</span>
-                <input
-                    className={styles.input}
-                    type="text"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    placeholder="e.g., Science"
-                    required
-                />
-            </label>
+      <label className={styles.field}>
+        <span className={styles.label}>Title</span>
+        <input
+          className={styles.input}
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="e.g., Finish homework"
+          required
+        />
+      </label>
 
-            <label className={styles.field}>
-                <span className={styles.label}>Due Date</span>
-                <input
-                    className={styles.input}
-                    type="date"
-                    value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                    min={new Date().toISOString().split("T")[0]}
-                    required
-                />
-            </label>
+      <label className={styles.field}>
+        <span className={styles.label}>Subject</span>
+        <input
+          className={styles.input}
+          type="text"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          placeholder="e.g., Science"
+          required
+        />
+      </label>
 
-            <div className={styles.twoCol}>
-                <label className={styles.field}>
-                    <span className={styles.label}>Priority</span>
-                    <select className={styles.select} value={priority} onChange={(e) => setPriority(e.target.value)} required>
-                        <option value="">Select Priority</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
-                </label>
+      <label className={styles.field}>
+        <span className={styles.label}>Due Date</span>
+        <input
+          className={styles.input}
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          min={new Date().toISOString().split("T")[0]}
+          required
+        />
+      </label>
 
-                <label className={styles.field}>
-                    <span className={styles.label}>Status</span>
-                    <select className={styles.select} value={status} onChange={(e) => setStatus(e.target.value)} required>
-                        <option value="">Select Status</option>
-                        <option value="To-Do">To-Do</option>
-                        <option value="In Progress">In Progress</option>
-                    </select>
-                </label>
-            </div>
+      <div className={styles.twoCol}>
+        <label className={styles.field}>
+          <span className={styles.label}>Priority</span>
+          <select
+            className={styles.select}
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+            required
+          >
+            <option value="">Select Priority</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </label>
 
-            <button className={styles.btnPrimary} type="submit">Add</button>
-        </form>
-    );
+        <label className={styles.field}>
+          <span className={styles.label}>Status</span>
+          <select
+            className={styles.select}
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            required
+          >
+            <option value="">Select Status</option>
+            <option value="To-Do">To-Do</option>
+            <option value="In Progress">In Progress</option>
+          </select>
+        </label>
+      </div>
+
+      <button className={styles.btnPrimary} type="submit">
+        Add
+      </button>
+
+      {taskAdded ? <div className={styles.successMsg}>Task added</div> : null}
+    </form>
+  );
 }
 
 function TaskFilters({ filters, setFilters, tasks }) {
-    const subjects = useMemo(() => {
-        const set = new Set(tasks.map(task => task.subject).filter(subject => subject));
-        return ["All", ...Array.from(set).sort()];
-    }, [tasks]);
+  const subjects = useMemo(() => {
+    const set = new Set(tasks.map((task) => task.subject).filter((subject) => subject));
+    return ["All", ...Array.from(set).sort()];
+  }, [tasks]);
 
-    return (
-        <div className={styles.card + " " + styles.stack}>
-            <h2 className={styles.cardTitle}>Filters</h2>
+  return (
+    <div className={styles.card + " " + styles.stack}>
+      <h2 className={styles.cardTitle}>Filters</h2>
 
-            <div className={styles.twoCol}>
-                <label className={styles.field}>
-                    <span className={styles.label}>Status</span>
-                    <select className={styles.select} value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}>
-                        <option value="All">All</option>
-                        <option value="To-Do">To-Do</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Done">Done</option>
-                    </select>
-                </label>
+      <div className={styles.twoCol}>
+        <label className={styles.field}>
+          <span className={styles.label}>Status</span>
+          <select
+            className={styles.select}
+            value={filters.status}
+            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+          >
+            <option value="All">All</option>
+            <option value="To-Do">To-Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+          </select>
+        </label>
 
-                <label className={styles.field}>
-                    <span className={styles.label}>Priority</span>
-                    <select className={styles.select} value={filters.priority} onChange={(e) => setFilters({ ...filters, priority: e.target.value })}>
-                        <option value="All">All</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
-                </label>
-            </div>
-            <label className={styles.field}>
-                <span className={styles.label}>Subject</span>
-                <select className={styles.select} value={filters.subject} onChange={(e) => setFilters({ ...filters, subject: e.target.value })}>
-                    {subjects.map((subject) => (
-                        <option key={subject} value={subject}>
-                            {subject}
-                        </option>
-                    ))}
-                </select>
-            </label>
-        </div>
-    );
+        <label className={styles.field}>
+          <span className={styles.label}>Priority</span>
+          <select
+            className={styles.select}
+            value={filters.priority}
+            onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
+          >
+            <option value="All">All</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </label>
+      </div>
+
+      <label className={styles.field}>
+        <span className={styles.label}>Subject</span>
+        <select
+          className={styles.select}
+          value={filters.subject}
+          onChange={(e) => setFilters({ ...filters, subject: e.target.value })}
+        >
+          {subjects.map((subject) => (
+            <option key={subject} value={subject}>
+              {subject}
+            </option>
+          ))}
+        </select>
+      </label>
+    </div>
+  );
 }
 
 function TaskItem({ task, updateTask, deleteTask }) {
@@ -207,10 +234,11 @@ function TaskItem({ task, updateTask, deleteTask }) {
                 className={styles.select}
                 value={draft.status || ""}
                 onChange={(e) => setDraft({ ...draft, status: e.target.value })}
-              > 
+              >
                 <option value="">Select Status</option>
                 <option value="To-Do">To-Do</option>
                 <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
               </select>
             </label>
           </div>
@@ -245,8 +273,9 @@ function TaskItem({ task, updateTask, deleteTask }) {
         <div className={styles.taskBtns}>
           <button
             className={styles.btn}
-            onClick={() => updateTask(task.id, { status: "Done",
-            completedAt: new Date().toISOString() })}
+            onClick={() =>
+              updateTask(task.id, { status: "Done", completedAt: new Date().toISOString() })
+            }
             type="button"
           >
             Mark Done
@@ -266,65 +295,86 @@ function TaskItem({ task, updateTask, deleteTask }) {
 }
 
 function TaskList({ tasks, updateTask, deleteTask }) {
-    if (tasks.length === 0) {
-        return <div><p>No tasks found.</p></div>;
-    }
+  if (tasks.length === 0) {
     return (
-        <div className={styles.stack}>
-            {tasks.map((task) => (
-                <TaskItem key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} />
-            ))}
-        </div>
+      <div>
+        <p>No tasks found.</p>
+      </div>
     );
+  }
+  return (
+    <div className={styles.stack}>
+      {tasks.map((task) => (
+        <TaskItem key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} />
+      ))}
+    </div>
+  );
 }
 
-// Main Planner Page Component
 function PlannerPage({ onTaskUpdate }) {
   const [tasks, setTasks] = useState([]);
   const [filters, setFilters] = useState({ status: "All", priority: "All", subject: "All" });
   const [loading, setLoading] = useState(true);
+  const [taskAdded, setTaskAdded] = useState(false);
 
-  // Fetch tasks on mount
+  const { user } = useAuth();
+  const userId = user?.id ? String(user.id) : null;
+
   useEffect(() => {
     fetchTasks();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   const fetchTasks = async () => {
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
-    
-    const response = await fetch(API_URL, { signal: controller.signal });
-    clearTimeout(timeoutId);
-    
-    const data = await response.json();
-    setTasks(data);
-  } catch (error) {
-    console.error("Error fetching tasks:", error);
-    // Initialize with empty array if fetch fails
-    setTasks([]);
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true);
+
+      if (!userId) {
+        setTasks([]);
+        return;
+      }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      const response = await fetch(`${API_URL}?userId=${encodeURIComponent(userId)}`, {
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      const data = await response.json();
+      setTasks(data);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      setTasks([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addTask = async (task) => {
     try {
+      if (!userId) return;
+
       const newTask = {
         ...task,
+        userId,
         createdAt: new Date().toISOString(),
       };
-      
+
       const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newTask),
       });
-      
+
       const savedTask = await response.json();
       setTasks((prev) => [savedTask, ...prev]);
-      
-      // Notify App to refresh tasks for Timer dropdown
+
+      setTaskAdded(true);
+      setTimeout(() => setTaskAdded(false), 2500);
+
       if (onTaskUpdate) onTaskUpdate();
     } catch (error) {
       console.error("Error adding task:", error);
@@ -338,11 +388,10 @@ function PlannerPage({ onTaskUpdate }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),
       });
-      
+
       const updatedTask = await response.json();
       setTasks((prev) => prev.map((t) => (t.id === id ? updatedTask : t)));
-      
-      // Notify App to refresh tasks for Timer dropdown
+
       if (onTaskUpdate) onTaskUpdate();
     } catch (error) {
       console.error("Error updating task:", error);
@@ -354,10 +403,9 @@ function PlannerPage({ onTaskUpdate }) {
       await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
       });
-      
+
       setTasks((prev) => prev.filter((t) => t.id !== id));
-      
-      // Notify App to refresh tasks for Timer dropdown
+
       if (onTaskUpdate) onTaskUpdate();
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -394,7 +442,7 @@ function PlannerPage({ onTaskUpdate }) {
 
       <div className={styles.plannerGrid}>
         <div className={styles.leftCol}>
-          <TaskForm addTask={addTask} />
+          <TaskForm addTask={addTask} taskAdded={taskAdded} />
           <TaskFilters filters={filters} setFilters={setFilters} tasks={tasks} />
         </div>
 

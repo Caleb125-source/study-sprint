@@ -1,3 +1,51 @@
+# Study Sprint
+
+Study Sprint is a React-based productivity web application designed to help students manage tasks, track study sessions, and stay focused using a Pomodoro-style timer.
+
+It includes:
+
+Task planning
+
+Focus timer
+
+Weekly progress tracking
+
+Authentication system
+
+Global settings (theme + durations)
+
+Session logging
+
+# Setup Instructions
+Clone the repository
+git clone <your-github-repo-link>
+cd study-sprint
+
+Install dependencies
+npm install
+
+Start the mock backend (JSON Server)
+This project uses json-server with db.json as a mock backend.
+npx json-server --watch db.json --port 3001
+
+You should see:
+JSON Server started on PORT :3001
+Endpoints:
+http://localhost:3001/settings
+http://localhost:3001/users
+http://localhost:3001/tasks
+http://localhost:3001/sessions
+
+Start the React app
+Open a second terminal and run:
+npm run dev
+
+Then open in browser:
+http://localhost:5173
+
+
+
+
 # Planner Component
 
 A React-based task management component for organizing and tracking tasks with filtering capabilities.
@@ -9,6 +57,78 @@ Task Editing: Edit existing tasks inline with a clean form interface
 Task Filtering: Filter tasks by status, priority, and subject
 Task Management: Mark tasks as done or delete them
 Responsive Design: Clean, organized layout with modular CSS
+
+# Component Tree
+study-sprint/
+├─ node_modules/
+├─ public/
+│
+├─ db.json
+├─ .gitignore
+├─ eslint.config.js
+├─ index.html          
+├─ package.json
+├─ package-lock.json
+├─ vite.config.js
+│
+└─ src/
+   ├─ assets/
+   │
+   ├─ auth/
+   │   ├─ AuthContext.jsx
+   │   └─ ProtectedRoute.jsx
+   │
+   ├─ components/
+   │   ├─ Feature.jsx
+   │   ├─ Layout.jsx
+   │   ├─ LogoutButton.jsx
+   │   ├─ Navbar.jsx
+   │   ├─ PlannerPage.jsx
+   │   └─ TimerPage.jsx
+   │
+   ├─ context/
+   │   ├─ SessionsContext.jsx
+   │   └─ SettingsContext.jsx
+   │
+   ├─ pages/
+   │   ├─ About.jsx
+   │   ├─ Dashboard.jsx
+   │   ├─ FeaturesPage.jsx
+   │   ├─ FeaturesPage.test.jsx
+   │   ├─ LandingHomePage.jsx
+   │   ├─ LoginPage.jsx
+   │   ├─ ProgressPage.jsx
+   │   ├─ SettingsPage.jsx
+   │   └─ SignupPage.jsx
+   │
+   ├─ styles/
+   │   ├─ about.css
+   │   ├─ dashboard.css
+   │   ├─ FeaturesPage.module.css
+   │   ├─ LandingHomePage.module.css
+   │   ├─ LoginPage.module.css
+   │   ├─ PlannerPage.module.css
+   │   ├─ ProgressPage.module.css
+   │   ├─ SettingsPage.module.css
+   │   ├─ SignupPage.module.css
+   │   └─ TimerPage.module.css
+   │
+   ├─ tests/
+   │   ├─ About.test.jsx
+   │   ├─ Dashboard.test.jsx
+   │   ├─ LoginPage.test.jsx
+   │   ├─ PlannerPage.test.jsx
+   │   ├─ ProgressPage.test.jsx
+   │   ├─ SettingsPage.test.jsx
+   │   ├─ SignupPage.test.jsx
+   │   ├─ TimerPage.test.jsx
+   │   ├─ setup.js
+   │   └─ SetupTests.js
+   │
+   ├─ App.jsx
+   ├─ index.css
+   └─ main.jsx
+
 
 # Component Structure
 
@@ -220,3 +340,84 @@ Time formatting
 
 # Run tests with:
 bashnpm test
+
+
+## Custom Hooks (Context Hooks)
+
+This project uses React Context + custom hooks to keep global app state clean and reusable.  
+Instead of passing props through many components, each context exposes a custom hook that any component can call.
+
+---
+
+### useAuth() (Authentication Hook)
+
+**File:** src/auth/AuthContext.jsx
+
+useAuth() gives components access to authentication state and actions:
+- user → the currently logged-in user (or null if logged out)
+- isBooting → prevents route guards from running before localStorage is checked
+- login({ email, password }) → logs in by checking db.json users
+- signup({ name, email, password }) → creates a new user in db.json
+- logout() → clears user session
+
+**Why it matters:**  
+It centralizes login/signup/logout and keeps user session persistent using localStorage.
+
+Used by:
+- LoginPage.jsx, SignupPage.jsx
+- ProtectedRoute.jsx
+- Navbar.jsx / LogoutButton.jsx
+
+---
+
+### useSettings() (App Settings Hook)
+
+**File:** src/context/SettingsContext.jsx
+
+useSettings() manages global study settings:
+- theme (light / dark)
+- focus duration
+- short break duration
+- long break duration
+
+It loads settings once from db.json and auto-saves when values change (debounced).
+
+**Why it matters:**  
+All pages/components read the same settings without prop-drilling, and the theme is applied globally using a data-theme attribute.
+
+Used by:
+- TimerPage.jsx (for mode durations)
+- SettingsPage.jsx (where the user edits settings)
+
+---
+
+### useSessions() (Study Sessions Hook)
+
+**File:** src/context/SessionsContext.jsx
+
+useSessions() stores and manages study sessions (focus sessions + skipped sessions):
+- sessions → all sessions for the logged-in user
+- addSession({ startedAt, minutes, taskId }) → saves a new session to db.json
+- deleteSession(id) → deletes one session
+- clearSessions() → placeholder for clearing sessions
+
+Sessions are saved with a **local date string** (YYYY-MM-DD) to avoid timezone shifting.
+
+**Why it matters:**  
+It allows the Timer page to record sessions and the Progress page to compute weekly totals, streaks, and recent sessions.
+
+Used by:
+- TimerPage.jsx (records sessions)
+- ProgressPage.jsx (reads sessions & calculates stats)
+
+---
+
+## Route Guard (Not a Hook but uses useAuth)
+
+**File:** src/auth/ProtectedRoute.jsx
+
+ProtectedRoute prevents users from accessing private routes unless logged in.  
+If the app is still booting, it shows a loading message.  
+If the user is not logged in, it redirects to /login.
+
+

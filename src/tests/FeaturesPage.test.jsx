@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import FeaturesPage from "./FeaturesPage";
+import FeaturesPage from "../pages/FeaturesPage";
 
 describe("FeaturesPage", () => {
   test("renders the Features heading", () => {

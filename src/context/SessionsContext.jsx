@@ -1,63 +1,56 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useAuth } from "../auth/AuthContext.jsx";
 
 const SessionsContext = createContext(null);
+const API = "http://localhost:3001/sessions";
 
-const SESSIONS_API = "http://localhost:3001/sessions";
-
-// Get local date string in YYYY-MM-DD format (not UTC)
-const getLocalDateString = (date) => {
+// Helper to get LOCAL yyyy-mm-dd from a Date
+// This avoids UTC day-shifts for Kenya users (or any local timezone)
+const getYMD = (date) => {
   const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+    d.getDate()
+  ).padStart(2, "0")}`;
 };
 
 export function SessionsProvider({ children }) {
+  const { user } = useAuth();
+  const userId = user?.id ? String(user.id) : null;
+
   const [sessions, setSessions] = useState([]);
 
-  // Load sessions from backend on mount
+  //  Load sessions for the logged-in user
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch(SESSIONS_API);
-        const data = await res.json();
-        setSessions(Array.isArray(data) ? data : []);
-      } catch (e) {
-        console.warn("Could not load sessions from backend. Falling back to localStorage.", e);
-        // fallback to localStorage so app still works
-        try {
-          const raw = localStorage.getItem("studysprint_sessions");
-          setSessions(raw ? JSON.parse(raw) : []);
-        } catch {
-          setSessions([]);
-        }
-      }
-    })();
-  }, []);
+    if (!userId) {
+      setSessions([]);
+      return;
+    }
 
-  // Keep a local backup (optional)
-  useEffect(() => {
-    localStorage.setItem("studysprint_sessions", JSON.stringify(sessions));
-  }, [sessions]);
+    fetch(`${API}?userId=${encodeURIComponent(userId)}`)
+      .then((r) => r.json())
+      .then((d) => setSessions(Array.isArray(d) ? d : []))
+      .catch(() => setSessions([]));
+  }, [userId]);
 
-  // Save session to backend
+  //  Add a new session
   const addSession = async ({ startedAt, minutes, taskId }) => {
+    if (!userId) return;
+
     const d = new Date(startedAt);
 
     const session = {
-      // json-server prefers numeric ids, but it also works without an id (it will create one)
-      date: getLocalDateString(d),
+      userId,
+      date: getYMD(d), 
       time: d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       label: minutes > 0 ? "Focus Session" : "Skipped Session",
       minutes,
-      taskId: taskId || null,
+      taskId,
       startedAt,
       createdAt: new Date().toISOString(),
     };
 
     try {
-      const res = await fetch(SESSIONS_API, {
+      const res = await fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(session),
@@ -66,19 +59,34 @@ export function SessionsProvider({ children }) {
       const saved = await res.json();
       setSessions((prev) => [saved, ...prev]);
     } catch (e) {
-      console.error("Failed to save session to backend, saving locally instead:", e);
-      // fallback: still count it locally
-      setSessions((prev) => [{ id: crypto.randomUUID(), ...session }, ...prev]);
+      // keep UI stable if API fails
+      console.error("Failed to add session:", e);
     }
   };
 
-  const value = useMemo(() => ({ sessions, addSession }), [sessions]);
+  // Delete single session
+  const deleteSession = async (id) => {
+    try {
+      await fetch(`${API}/${id}`, { method: "DELETE" });
+      setSessions((prev) => prev.filter((s) => s.id !== id));
+    } catch (e) {
+      console.error("Failed to delete session:", e);
+    }
+  };
+
+  //  Clear all sessions for the user
+  const clearSessions = async () => {
+    setSessions([]);
+  };
+
+  const value = useMemo(
+    () => ({ sessions, addSession, deleteSession, clearSessions }),
+    [sessions]
+  );
 
   return <SessionsContext.Provider value={value}>{children}</SessionsContext.Provider>;
 }
 
 export function useSessions() {
-  const ctx = useContext(SessionsContext);
-  if (!ctx) throw new Error("useSessions must be used inside SessionsProvider");
-  return ctx;
+  return useContext(SessionsContext);
 }

@@ -53,6 +53,12 @@
       "name": "Mark",
       "email": "Mark@gmail.com",
       "password": "123456"
+    },
+    {
+      "id": "de25eea4-88e3-4f3f-b421-ee6397b41def",
+      "name": "John",
+      "email": "John@gmail.com",
+      "password": "1234567"
     }
   ],
   "tasks": [
@@ -298,6 +304,17 @@
       "userId": "ca4a9e87-8cf7-479a-8eb8-79d2b721f88c",
       "createdAt": "2026-02-01T12:02:20.235Z",
       "completedAt": "2026-02-01T12:03:33.826Z"
+    },
+    {
+      "id": "70b4",
+      "title": "homework",
+      "subject": "science",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "Done",
+      "userId": "de25eea4-88e3-4f3f-b421-ee6397b41def",
+      "createdAt": "2026-02-01T13:46:41.077Z",
+      "completedAt": "2026-02-01T13:46:51.117Z"
     }
   ],
   "sessions": [
@@ -476,6 +493,17 @@
       "taskId": "6299",
       "startedAt": "2026-02-01T12:02:27.395Z",
       "createdAt": "2026-02-01T12:03:27.647Z"
+    },
+    {
+      "id": "5eca",
+      "userId": "de25eea4-88e3-4f3f-b421-ee6397b41def",
+      "date": "2026-02-01",
+      "time": "04:47 PM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "70b4",
+      "startedAt": "2026-02-01T13:47:10.096Z",
+      "createdAt": "2026-02-01T13:48:10.111Z"
     }
   ]
 }

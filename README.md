@@ -10,6 +10,78 @@ Task Filtering: Filter tasks by status, priority, and subject
 Task Management: Mark tasks as done or delete them
 Responsive Design: Clean, organized layout with modular CSS
 
+# Component Tree
+study-sprint/
+├─ node_modules/
+├─ public/
+│
+├─ db.json
+├─ .gitignore
+├─ eslint.config.js
+├─ index.html          
+├─ package.json
+├─ package-lock.json
+├─ vite.config.js
+│
+└─ src/
+   ├─ assets/
+   │
+   ├─ auth/
+   │   ├─ AuthContext.jsx
+   │   └─ ProtectedRoute.jsx
+   │
+   ├─ components/
+   │   ├─ Feature.jsx
+   │   ├─ Layout.jsx
+   │   ├─ LogoutButton.jsx
+   │   ├─ Navbar.jsx
+   │   ├─ PlannerPage.jsx
+   │   └─ TimerPage.jsx
+   │
+   ├─ context/
+   │   ├─ SessionsContext.jsx
+   │   └─ SettingsContext.jsx
+   │
+   ├─ pages/
+   │   ├─ About.jsx
+   │   ├─ Dashboard.jsx
+   │   ├─ FeaturesPage.jsx
+   │   ├─ FeaturesPage.test.jsx
+   │   ├─ LandingHomePage.jsx
+   │   ├─ LoginPage.jsx
+   │   ├─ ProgressPage.jsx
+   │   ├─ SettingsPage.jsx
+   │   └─ SignupPage.jsx
+   │
+   ├─ styles/
+   │   ├─ about.css
+   │   ├─ dashboard.css
+   │   ├─ FeaturesPage.module.css
+   │   ├─ LandingHomePage.module.css
+   │   ├─ LoginPage.module.css
+   │   ├─ PlannerPage.module.css
+   │   ├─ ProgressPage.module.css
+   │   ├─ SettingsPage.module.css
+   │   ├─ SignupPage.module.css
+   │   └─ TimerPage.module.css
+   │
+   ├─ tests/
+   │   ├─ About.test.jsx
+   │   ├─ Dashboard.test.jsx
+   │   ├─ LoginPage.test.jsx
+   │   ├─ PlannerPage.test.jsx
+   │   ├─ ProgressPage.test.jsx
+   │   ├─ SettingsPage.test.jsx
+   │   ├─ SignupPage.test.jsx
+   │   ├─ TimerPage.test.jsx
+   │   ├─ setup.js
+   │   └─ SetupTests.js
+   │
+   ├─ App.jsx
+   ├─ index.css
+   └─ main.jsx
+
+
 # Component Structure
 
 # Main Components
@@ -220,3 +292,5 @@ Time formatting
 
 # Run tests with:
 bashnpm test
+
+

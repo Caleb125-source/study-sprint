@@ -261,6 +261,26 @@
       "status": "To-Do",
       "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
       "createdAt": "2026-01-31T21:45:15.000Z"
+    },
+    {
+      "id": "04c8",
+      "title": "Group work",
+      "subject": "React",
+      "dueDate": "2026-02-01",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "createdAt": "2026-02-01T03:57:00.240Z"
+    },
+    {
+      "id": "02bf",
+      "title": "Quiz",
+      "subject": "React",
+      "dueDate": "2026-02-02",
+      "priority": "High",
+      "status": "To-Do",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "createdAt": "2026-02-01T03:59:38.505Z"
     }
   ],
   "sessions": [
@@ -406,6 +426,28 @@
       "taskId": "205a",
       "startedAt": "2026-01-31T21:45:26.332Z",
       "createdAt": "2026-01-31T21:46:26.419Z"
+    },
+    {
+      "id": "b785",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "date": "2026-02-01",
+      "time": "06:57 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "04c8",
+      "startedAt": "2026-02-01T03:57:09.546Z",
+      "createdAt": "2026-02-01T03:58:09.773Z"
+    },
+    {
+      "id": "ba68",
+      "userId": "af8c68a9-c90b-42a8-a04a-41cc122714bc",
+      "date": "2026-02-01",
+      "time": "06:59 AM",
+      "label": "Focus Session",
+      "minutes": 1,
+      "taskId": "02bf",
+      "startedAt": "2026-02-01T03:59:44.415Z",
+      "createdAt": "2026-02-01T04:00:44.552Z"
     }
   ]
 }
